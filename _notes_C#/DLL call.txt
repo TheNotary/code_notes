@@ -1,0 +1,82 @@
+// http://www.codeproject.com/KB/cs/c__and_api.aspx
+
+
+//////////////////////////////////////////////SIMPLE WAY
+
+// Put in includes
+
+using System.Runtime.InteropServices;               //  Since we are using external library
+
+
+
+
+// Put in the class Form1 : Form
+
+        [DllImport("User32.dll")]                                                     // Declairs the API to be called
+        public static extern int MessageBox(int h, string m, string c, int type);
+
+
+// Put in the button
+                                                                 
+        MessageBox(0, "API Message Box", "API Demo", 0);                    // calls the API!
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////FOR COMPLEX APIs
+
+
+// Put in includes
+
+using System.Runtime.InteropServices;
+
+[StructLayout(LayoutKind.Sequential)]                    // Define the struct layout which your API will return info into
+public struct SYSTEM_INFO
+{
+    public uint dwOemId;
+    public uint dwPageSize;
+    public uint lpMinimumApplicationAddress;
+    public uint lpMaximumApplicationAddress;
+    public uint dwActiveProcessorMask;
+    public uint dwNumberOfProcessors;
+    public uint dwProcessorType;
+    public uint dwAllocationGranularity;
+    public uint dwProcessorLevel;
+    public uint dwProcessorRevision;
+}
+
+
+
+
+
+// Put in the class Form1 : Form 
+
+        [DllImport("kernel32")]                                                  //Declare the API 
+        static extern void GetSystemInfo(ref SYSTEM_INFO ThisGetsWrittenTo);     //Where ref is next to the method parameter keyword it causes a method to refer to the same variable that was passed into the method.
+
+
+// Put in the button
+
+    SYSTEM_INFO pSI = new SYSTEM_INFO();                   // Define a new variable (object) as the structure desired by the API
+            
+
+    try
+	  {
+		    GetSystemInfo(ref pSI);                            // Call the API, returning the results to   pSI
+    }
+    
+    catch (Exception er)
+    {
+        MessageBox.Show(er.Message);
+    }
+
+    MessageBox.Show(pSI.dwActiveProcessorMask.ToString());       // Recall one of the things retuned by the API
+
+

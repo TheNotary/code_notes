@@ -1,0 +1,52 @@
+//               ACCESS DATABASE STATEMENTS
+//
+//
+//  http://www.pssuk.com/Articles/AccessDDL.htm
+//  
+//  Convert database type...
+//  http://stackoverflow.com/questions/246223/export-sql-database-to-access-asp-net
+
+Ref
+
+
+CREATE TABLE Employees (FirstName TEXT(20), LastName TEXT(20), dob DATETIME,
+Constraint Employees_PK Primary Key (First_Name, Last_Name));                            //  This sets two values to be the primary key.  eg (Rob, Clark) can appear only once, but (Rob, Hannes) and (Tadd, Clark) can still accompany the record.   
+                                                                                         //  Composite keys like this are problematic because what if you want to fill a Table's row depending on these TWO numbers instead of just having a single primary key
+
+
+
+
+
+
+CREATE TABLE
+
+
+
+
+Creating Tables
+
+
+        
+        
+        
+///////////////////////////  Example Parent Child with AUTOINCREMENT
+
+//  This line creates a table, BUT it sets the PRIMARY KEY to id1.  It also sets it's foriegn name which can now be referenced?
+
+CREATE TABLE table1(id1 AUTOINCREMENT, name1 TEXT(50), CONSTRAINT table1_PK PRIMARY KEY(id1));
+
+
+
+  CREATE TABLE table2(
+  id2 AUTOINCREMENT, 
+  id1 INT NOT NULL, 
+  name2 TEXT(100) NOT NULL,
+  CONSTRAINT table2_FK FOREIGN KEY (id1) REFERENCES table1 (id1),               // This line says to make id1 a FOREIGN KEY, refering to table1's id1 value
+                                                                                // Which means table2's id1 must exist in table1's id1
+  CONSTRAINT table2_PK PRIMARY KEY(id2)
+  ); 
+
+
+
+        
+        

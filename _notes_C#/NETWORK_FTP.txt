@@ -1,0 +1,50 @@
+http://www.vcskicks.com/csharp_ftp_upload.php
+
+
+
+        ///  WriteToFTP
+        ///
+        /// <summary>
+        /// This writes a string of text to an FTP server
+        /// Just specify the msg to write... 
+        /// Later I'll make one that let's you specify the FTP server, the username, the pass, and the file path to write to.
+        /// </summary>
+        /// <returns>returns null if something goes wrong</returns>
+        public static void WriteToFTP(string msg)
+        {
+            string password = "mh";
+            string FTPAddress = "ftp://ftp.cableone.net";
+            password += "tiy";
+            string username = "lobstertalk";
+            password += "w28";
+            string ugg = "y34";
+
+            FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(FTPAddress + "/" + "castt/" + "update.txt");
+
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+            request.Credentials = new NetworkCredential(username, password);
+            request.UsePassive = true;
+            request.UseBinary = true;
+            request.KeepAlive = false;
+
+
+            // convert msg to byte[] so it can be put on the FTP server
+            byte[] myExternalIPAddress;
+            UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            myExternalIPAddress = encoding.GetBytes(msg);
+
+
+            // write to the FTP server
+            Stream reqStream = request.GetRequestStream();
+            reqStream.Write(myExternalIPAddress, 0, myExternalIPAddress.Length);
+            reqStream.Close();
+        }
+        
+
+
+
+
+
+
+
+

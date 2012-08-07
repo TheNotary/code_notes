@@ -1,0 +1,20 @@
+
+
+// put this in Form1()
+
+this.Load += new System.EventHandler(this.Form1_Load);
+
+
+
+// put this in the names space...  this is where your startup events go if you want them to run on FormLoad
+
+        private void Form1_Load(object sender, System.EventArgs e)
+        {
+            
+        }
+        
+        
+        
+        
+        
+        

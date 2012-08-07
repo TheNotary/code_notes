@@ -1,0 +1,50 @@
+<input id="inputFiles" type="file" multiple="" />
+
+<input type="button" value="Process" onclick="processIt();" />
+
+<div id="dataGrid"></div>
+
+<script>
+var maxSize = 2000000;
+var filex = document.getElementById("inputFiles").files;
+
+function processIt(){
+	var files = document.getElementById("inputFiles").files;
+	 
+	// or, for a drag event e:
+	// var dt = e.dataTransfer; var files = dt.files
+	 
+	for (var i = 0; i < files.length; i++) {
+	  var filex = files[i];
+	  handleFile(filex);
+	 
+	}
+
+	
+
+
+	function handleFile(file) {
+	
+		// RegExp for JPEG mime type
+		var imageType = /image\/jpeg/;
+		alert('handle');
+		// Check if match
+		if (!file.type.match(imageType)) {
+			alert('file mismatch');
+			return false;
+		}
+	   // Check if the picture exceeds set limit
+	   if(file.size > maxSize) {
+		  alert("Choose a smaller photo!");
+		  return false;
+	   }
+	   
+	   alert('woot');
+	  // Add file name to page
+	  var picData = document.createTextNode(file.path);
+	  dataGrid.appendChild(picData);
+	  return true;
+	}
+}
+
+</script>

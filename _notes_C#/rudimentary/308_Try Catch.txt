@@ -1,0 +1,29 @@
+// the try-catch syntax is used to  "try" a function, and if the function throws some kind of error or crash
+//                          you can "catch" that error and instead of having the whole program crash, you simply perform the registered code and move on
+//
+
+
+
+
+try {
+			Message("Hello world");                            // this is where you put the function call to attempt
+		}                                                    // if this code throws an error, it will not matter (if you have a catch for that error)
+		  
+		catch(DllNotFoundException e) 
+		{                                                    // This is the exception/ error that you catch
+			Console.WriteLine(e.ToString());                   // This is the code to run in the event that the specified exception is thrown
+		}
+		
+		catch(EntryPointNotFoundException e) 
+		{
+			Console.WriteLine(e.ToString());
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		

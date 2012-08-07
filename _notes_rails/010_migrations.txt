@@ -1,0 +1,35 @@
+ref:  http://wiki.rubyonrails.org/rails/pages/availablegenerators
+
+A migration is an active record script that is in charge of creating the database for a specific model (and tearing it down when you don't want it anymore).  
+So if you had a model named "Hello" and it consisted of a "name:string", then the migration for that model would be a ruby script creating a table named "Hellos" with a string column named "name".  
+Models often work together with migrations to build your database.  
+
+You will often use the migration command to add columns to an existing database table which has already been scaffolded.  Or maybe you'll use it to remove columns.  
+Migration scripts are run against the database using [inline]$  rake db:migrate[/inline]
+
+$  ./script/generate migration AddTitleBodyToPost title:string body:text published:boolean`
+This generates...
+
+def self.up
+[code]
+add_column :posts, :title, :string  
+add_column :posts, :body, :text  
+add_column :posts, :published, :boolean
+[/code]
+def self.down
+[code]
+remove_column :posts, :published  
+remove_column :posts, :body  
+remove_column :posts, :title
+[/code]
+
+To just make a blank migration with empty self.up/ self.down slots, run...
+$  ./script/generate migration add_posts
+
+Then you can manually manipulate the contents of that migration at [inline]db/migrate/001_add_posts.rb[/inline]
+
+
+
+EVERYTIME YOU MAKE CHANGES TO A TABLE, YOU SHOULD GENERATE A NEW MIGRATION!  This helps isolate database changes so when something goes wrong, it's easier to track down the bug I think.  
+
+

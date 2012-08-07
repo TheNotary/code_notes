@@ -1,0 +1,112 @@
+<html>
+<a href="http://css-tricks.com/video-screencasts/93-css3-slideup-boxes/"> link</a>
+<head>
+<style>
+* { margin: 0; padding: 0; }
+article, aside, figure, footer, header, hgroup,
+menu, nav, section { display: block; }
+
+
+  #page-wrap { width: 370px; margin: 60px auto; }
+
+  a { text-decoration: none; }
+
+  .slide-up-boxes a {
+    display: block;
+    background: #eee;
+    border: 1px solid #ccc;
+    height: 65px;
+    margin: 0 0 20px 0;
+    overflow: hidden;
+  }
+  
+  .slide-up-boxes h5 {
+    height: 65px;
+    text-align: center;
+    line-height: 65px;
+    
+    -webkit-transition: margin-top 0.2s linear;
+    -moz-transition: margin-top 0.2s linear;
+    -o-transition: margin-top 0.2s linear;
+  }
+  
+  .slide-up-boxes a:hover h5 {
+    margin-top: -65px;
+    
+    -webkit-transition: margin-top 0.2s linear;
+    -moz-transition: margin-top 0.2s linear;
+    -o-transition: margin-top 0.2s linear;
+  }
+  
+  .slide-up-boxes div {
+    height: 45px;
+    padding: 10px;
+    opacity: 0;
+    color: white;
+    
+    -webkit-transition: all 0.3s linear;
+    -webkit-transform: rotate(6deg);
+    -moz-transition: all 0.3s linear;
+    -moz-transform: rotate(6deg);
+    -o-transition: all 0.3s linear;
+    -o-transform: rotate(6deg);
+  }
+  
+  .slide-up-boxes a:hover div {
+    opacity: 1;
+    
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  
+  .slide-up-boxes a:nth-child(1) div   { background: #c73b1b url(images/wufoo.png) 17px 17px no-repeat; padding-left: 120px; }
+		.slide-up-boxes a:nth-child(2) div { background: #367db2 url(images/diw.png) 21px 10px no-repeat; padding-left: 90px; }
+		.slide-up-boxes a:nth-child(3) div { background: #393838 url(images/qod.png) 14px 16px no-repeat; padding-left: 133px; }
+		
+</style>
+</head>
+
+
+
+<body>
+
+  <div id="page-wrap">
+    <h1>Slideup Boxes</h1>
+    
+    <section class="slide-up-boxes">
+    
+      <a href="http://wufu.com">
+        <h5> I work for...</h5>
+        <div>Info blurb, lol, lol.  Ok some more text will go here.  So much text that it's multiple lines.</div>
+      </a>
+      
+      <a href="http://wufu.com">
+        <h5> I work for...</h5>
+        <div>Info blurb, lol, lol.  Ok some more text will go here.  So much text that it's multiple lines.</div>
+      </a>
+      
+      <a href="http://wufu.com">
+        <h5> I work for...</h5>
+        <div>Info blurb, lol, lol.  Ok some more text will go here.  So much text that it's multiple lines.</div>
+      </a>
+      
+    </section>
+  </div>
+  
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

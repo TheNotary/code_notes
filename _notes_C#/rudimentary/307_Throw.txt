@@ -1,0 +1,23 @@
+//  http://msdn.microsoft.com/en-us/library/1ah5wsex(VS.80).aspx
+
+// The throw statement is used to signal the occurrence of an anomalous situation (exception) during the program execution.
+
+
+OK, throw is soooooo helpful to know.  When ever you write a line of code and you think to your self "that's goona suck for someone down the road if they didn't bla..." you can actually write that down in your code as such.  
+
+
+If They.Didn't == Blaa then
+    throw (new System.Exception("looks like you didn't blaa blaa blaa...  Come talk to me, I meant to get back to this when the project came closer to fruition.  -Sam"));
+end if
+
+
+when a throw statement gets exicuted, it produces a runtime error, with the text you put in the throw statement supplied!
+
+
+
+
+
+
+
+
+

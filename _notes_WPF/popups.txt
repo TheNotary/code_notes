@@ -1,0 +1,36 @@
+ref:  http://social.msdn.microsoft.com/forums/en-US/wpf/thread/41742469-ba87-454d-9a02-630f42299811/
+
+
+
+
+
+Define Popup in xaml like this:
+
+<Popup Name="popup1" Width="300" Height="300" Placement="Center" PlacementTarget="{Binding ElementName=txtSynToListBox}">
+
+<StackPanel Background="Beige">
+
+<TextBlock Text="{Binding Path=TestDate}"/>
+
+<Button x:Name="btnPopup" Click="btnPopup_OnClick" />
+
+</StackPanel>
+
+</Popup>
+
+ 
+
+Just add this in code behind:
+
+ 
+
+protected void btnUpdateTestTBL_OnClick(object sender, RoutedEventArgs e)
+
+{
+
+this.popup1.IsOpen = true;
+
+}
+
+
+

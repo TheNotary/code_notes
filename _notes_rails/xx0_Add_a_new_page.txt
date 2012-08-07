@@ -1,0 +1,212 @@
+
+
+
+Scenario: 
+  You have a working rails app, and it has a pages layout such that if you go to [inline]/pages/home[/inlilne] it will take you to the home page.  
+  You would like to add a new page, called, say "newsblocks".  You also want it accessable directly from [inline]/newsblocks[/inline] because it looks nicer.  
+  
+  
+Solution:
+
+  1)  Open your pages controller, and add a def for "newsblocks"
+
+  2)  Create a view for your new 'action' as it were
+  
+  3)  Open the routes, and match "/pages/newsblocks" appropriately
+  
+
+
+
+1)  Open your pages controller, and add a def for "newsblocks"
+$  vi app/controllers/pages_controller.rb
+
+[code]
+class PagesController < ApplicationController
+
+  def home
+    @title = "Home"
+  end
+.
+.
+.
+  def newsblocks
+    @title = "News Blocks"  # this line is arguably optional
+  end
+[/code]
+
+
+
+
+2)  Create a view for your new 'action' as it were
+$  vi app/views/pages/newsblocks.html.erb
+
+Make sure your page conforms to what ever the other pages are conforming to (check app/views/application/layout)
+
+[code]
+<h1>Sample App</h1>
+<p>
+This is the newsblocks page!
+</p>
+.
+.
+.
+[/code]
+
+The rest of that file depends on what content you want in your application.  We'll put something nice in there after we get it online.  
+
+
+
+
+3)  Open the routes, and match "/pages/newsblocks" appropriately
+$  vi config/routes.rb
+
+[code]
+SampleApp::Application.routes.draw do
+  get "pages/newsblocks"
+  .
+  .
+  .
+end
+[/code]
+
+Alternatively, if you want it accessible directly from [inline]/newsblocks[/inline] you could put this instead:
+
+[code]
+SampleApp::Application.routes.draw do
+  match '/newsblocks', :to => 'pages#newsblocks'
+  .
+  .
+  .
+end
+[/code]
+
+
+
+
+==========================
+Done, but let's put some cool shit in /newsblocks
+
+
+$  vi app/views/pages/newsblocks.html.erb
+
+
+::Planning
+
+A newsblocks page is a page that consists of a bunch of videos formatted into little blocks.  
+  -You can scroll down the blocks in a mini-scroller (not the whole page scroll bar).
+  -You can search by setting a date span
+  
+  -[delete, dumb]You can filter by keyword search (title)
+  -You can filter by transcript keyword search (transcript)
+
+  -You can filter by guests (you can have it show guest photos instead of w/e default photo it's set to, AND display the guest name instead of titles)
+  -You can filter by guest tags (based on the questions Amy asks)
+  
+  -You can seach whole shows or just clips
+  -You can search for headline clips alone (cause those are speacial and help you find specific stories)
+  
+  -Most popular (call it "most linked to" to remind patrons of the idea)
+  -You can filter by category
+  -You can filter by show tags
+
+All the videos on democracy now can be divided into 'clips'.  Divisions can be
+  -individual interview questions+answers
+  -individual interview answers
+  -Headlines
+  -Stories
+  -anchor back and fourth?
+
+
+
+
+Markup
+[code]
+
+<div class="newsblocks" id="newsblockcontainer">
+  
+  <div class="menu" note="this is where the menu is"></div>
+  
+  
+  
+  <div class="blocks" note="this is where the newsblocks go">
+    
+    <div class="newsblock" id="/1005">
+      
+      <div class="tophalf">
+      
+        <a href="#" onclick="hasNewsBlockBeenClicked = true; loadVid('http://vid-server.site.com/vids/1005');">
+          <img src="/img/1005-guest_pic.jpg>
+        </a>
+        
+      </div>
+      
+      <div class="bottomhalf">
+      
+        <div class="newsblock_text">
+          <a onclick="hasNewsBlockBeenClicked = true; loadVid('http://vid-server.site.com/vids/1005');">Obama fires tomohawk into congress</a>
+          <span class="duration"> 3:02</span>
+          
+        </div>
+      </div>
+      
+      
+    </div>
+    
+    
+  </div>
+  
+
+  
+</div>
+
+[/code]
+
+
+We write that markup differently in rails
+https://github.com/benwoody/SouthernComfort/blob/master/app/views/pages/weather.html.haml
+[code]
+
+%div.newsblocks
+  %div.newsblocks.menu
+  
+  
+  %div.newsblocks.blocks
+  .
+  .
+  .
+[/code]
+
+I think that's how it works atleast...  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+I'd like to develop something that helps us track and monitor progress on stories.  
+
+
+
+
+
+
+
+
+

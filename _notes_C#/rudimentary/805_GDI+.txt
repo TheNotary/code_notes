@@ -1,0 +1,54 @@
+http://www.codeproject.com/kb/books/1861004990.aspx
+
+
+
+
+
+
+//Draw Line
+
+            Pen       myPen  = new Pen(Color.Black, 10);
+
+            Point stPoint  = new Point(20, 20);      
+            Point endPoint = new Point(20, 120);     // the end point is based on the begining point, so don't worry about this point anymore.  
+
+            e.Graphics.DrawLine(myPen, stPoint, endPoint); 
+
+
+
+//sudo draw string
+
+            e.Graphics.DrawString((blkKey.Width / 5f).ToString(), new Font("Helvetica", 40, FontStyle.Italic), new SolidBrush(System.Drawing.Color.Red), 200, 250);
+
+                                 OR
+
+            e.Graphics.DrawString( myString, 
+                                   new Font("Helvetica", 40, FontStyle.Italic), 
+                                   new SolidBrush(System.Drawing.Color.Red), 
+                                   200, 
+                                   250);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

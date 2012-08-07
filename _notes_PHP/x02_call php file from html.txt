@@ -1,0 +1,122 @@
+
+
+
+
+One of the many cool features of php is the ability to call a PHP page from within any old html page.  
+
+How:  
+
+1)  With javascript, the HTML page calls the php page, and sends the results to a var object
+2)  After being called, the PHP page will do it's code, and echo what you want the user to see.
+3)  With javascript, the HTML page will then put the results into an element on the page
+4)  Vwua LAaaa, the user can now see the results of the PHP on the form...
+
+
+Important Points:
+a)  Did you already know that Javascript can change the contents of an element on an HTML page by finding it's id and changing it's innerHTML property?  (eg...  document.getElementById("txtHint").innerHTML="bla bla";  ...will change an element like... <div id="txtHint"> text to change</div> 
+
+b)  Did you already know that the code...  if (window.XMLHttpRequest)  ...will check to see if the browser window supports the XMLHttpRequest object needed for our ajax shit?
+
+c1)  Did you know that...  xmlhttp.onreadystatechange=function() {...}   ...will run the script within the brackets several times!  Once everytime the mysterious "rdyState" Changes?
+
+c2)  Do you know how to Open an XMLHttpRequest object and have it call a php page?  Like this... hxmlhttp.open("GET","GetInvoiceDetail.php?q="+str,true);
+
+c3)  Do you know that doing so will initiate asynchronous data transfer which will result in the xmlhttp object's "Ready State" to change periodically?
+
+If so, then you're a champ =)
+
+
+HTML CODE (anyName.html):
+
+[code]
+
+<html>
+<head>
+<script type="text/javascript">
+function showUser(str)
+{
+if (str=="")
+  {
+  document.getElementById("txtHint").innerHTML="";
+  return;
+  }
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","GetInvoiceDetail.php?q="+str,true);
+xmlhttp.send();
+}
+</script>
+</head>
+<body>
+
+<form>
+<select name="users" onchange="showUser(this.value)">
+<option value="">Select a person:</option>
+<option value="1">Peter Griffin</option>
+<option value="2">Lois Griffin</option>
+<option value="3">Glenn Quagmire</option>
+<option value="4">Joseph Swanson</option>
+</select>
+</form>
+<br />
+<div id="txtHint"><b>Person info will be listed here.</b></div>
+
+</body>
+</html> 
+
+[/code]
+
+
+
+
+
+
+
+
+PHP CODE (GetInvoiceDetail.php):
+[code]
+<?php
+$q=$_GET["q"];
+
+
+
+echo "<table border='1'>";
+echo "<tr>";
+echo "<th>Firstname</th>";
+echo "<th>Lastname</th>";
+echo "<th>Age</th>";
+echo "<th>Hometown</th>";
+echo "<th>Job</th>";
+echo "</tr>";
+
+
+echo "<tr>";
+echo "<td> $q </td>";
+echo "<td> bla2 </td>";
+echo "<td>bla3</td>";
+echo "<td> bla4 </td>";
+echo "<td> bla5 </td>";
+echo "</tr>";
+
+echo "</table>";
+
+
+?> 
+[/code]
+
+
+
+Extrapolated from:  http://www.w3schools.com/PHP/php_ajax_database.asp

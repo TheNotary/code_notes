@@ -1,0 +1,57 @@
+These flash cards are for things you need to remember when first starting a project
+
+
+
+
+>>create a new rails app with mysql
+$  rails new AppName -d mysql
+
+
+>>Create a view, model, controller, and migration for User
+$  rails g scaffold User name:string num:integer
+
+
+
+>>undo the creation of a scaffold named User
+$  rails destroy User
+
+
+
+>>Create serveral template pages with a rails command
+$  rails g controller Pages home about contact
+
+
+
+>>Create a model with migration and specify data types
+$  rails g model Person first_name:string last_name:string email:string user_id:integer
+
+
+
+
+
+
+
+
+>> Add an attribute to the model
+attr_accessible :my_new_attribute
+
+>> Add a field to the users table for an attribute
+$  rails g migration add_my_new_attribute_to_users my_new_attribute:string
+
+
+
+>> when do you add attributes to just the migration and not the model
+When you want them to exist for the user, but not accessible.  
+Things like 'salt' and 'is_admin' are good examples of things that you don't want the user to control.  
+
+
+>> Why don't you generate users with 'password:string'?
+Because you to back that attribute up in the database, you only catch it from the html form they submit.  
+You do generate users with an 'encrypted_password:string' though you can add it later if you forget.  
+You don't make this attr_accessible obviously.  
+
+
+
+>>belongs_to :bla
+Makes this model be apart of bla.this_model
+and return an array.   

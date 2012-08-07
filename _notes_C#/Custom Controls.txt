@@ -1,0 +1,83 @@
+http://www.akadia.com/services/dotnet_user_controls.html#Submit%20Button%20User%20Control
+
+
+
+
+
+
+////  Draw a border around your control //
+
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        {
+            Pen myPen = new Pen(Color.Red);
+            SolidBrush brushDial;
+
+            Graphics g = e.Graphics;
+            Rectangle thisArea = e.ClipRectangle;
+
+            thisArea.Width -= 1;
+            thisArea.Height -= 1;
+
+            g.DrawRectangle(myPen, thisArea);
+
+
+
+
+            base.OnPaint(e);
+        }
+        
+//////////////////////////////////////////////
+
+
+
+
+
+
+
+
+//// Add Properties //
+
+
+
+
+property bool ClickAnywhere 
+{
+
+    bool get() 
+    {
+        return (label1->Dock == DockStyle::Fill);
+    }
+    
+    void set(bool val) 
+    {
+        if (val) 
+            label1->Dock = DockStyle::Fill;
+        else 
+            label1->Dock = DockStyle::None;
+    }
+    
+}
+
+
+
+///////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

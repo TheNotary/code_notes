@@ -1,0 +1,239 @@
+In rails, models are your objects.  If you're coming from C# background, or something similar, that makes perfect sense to you.  If not, this code might explain the concept.  
+
+[code]
+my_new_object = User.new
+[/code]
+
+That line (it's in rails/ruby) creates a new 'User' object.  From there, you can access your object's attributes (variables), and even use it's methods (functions).
+
+[code]
+my_new_object.name = "Mr. Burns"    #  Here we set the 'name' attribute of the object to be "Mr. Burns"
+
+my_new_object.delete    # use a method of the object.  I think it will have the delete function to call
+[/code]
+
+
+Cool, programmers love objects!  So how do we make an object in rails.  This reminds me of the phrase "shit hit the fan".  Literally, you don't setup your object in one spot, you do this all over the place --just like the when shit hits the fan, you've got work to do in every corner of the room.  
+
+[size="5"]Part 1 - simple objects[/size]
+
+To make the object accessible to rails in ram, you write the 'model' for the object.  Let's make a primitive User object.  
+
+(app/models/userz.rb)
+[code]
+class Userz < ActiveRecord::Base
+  attr_accessible :name, :email
+  
+  def superdestroy
+    puts "beep beep beep DESTROY!"
+  end
+end
+[/code]
+
+There we go, we can almost test this object using the rails consols [inline]$  rails c [/inline]
+
+(Test in console - not working yet)
+[code]
+  my_user = Userz.new   # this class method 'User.new' is 
+                       # automatically included in our User model
+                       # because it's inherited from "ActiveRecord::Base" 
+  
+  my_user.name = "john"            # we gave our object a name
+  
+  my_user.email = "bla@gmail.com"  # and we also gave it a email
+  
+  
+  my_user.superdestroy             # we also gave it a message, it will output 
+=> beep beep beep DESTROY! 
+
+[/code]
+
+
+But we're not done, that won't work yet.  Remember when I said shit hits the fan?  Every corner...
+
+To make our object 'persistent' we need to create a table for it in the database.  We also need to inheriting from "ActiveRecord::Base" which we've already done.  
+
+To make the database, we can use the command line...
+
+[code]
+$  rails g migration userz
+[/code]
+
+That will make a snazzy new migration for us:
+
+(db/migrate/TIMESTAMP_userz.rb)
+[code]
+class Userz < ActiveRecord::Migration
+  def self.up
+  end
+
+  def self.down
+  end
+end
+[/code]
+
+It's pretty much empty.  We're basically going to tell it how to make the userz table in the below example.  
+
+(db/migrate/TIMESTAMP_userz.rb)
+[code]
+class Userz < ActiveRecord::Migration
+  def self.up
+    create_table :userzs do |t|    # specify the table name (make it plural...)
+      t.string :name               # Specify a name attribute, as a string
+      t.string :email              # Specify an email attribute
+
+      t.timestamps                 # makes crated_at and updated_at columns
+    end
+  end
+
+  def self.down
+    drop_table :userzs             # Specify table name
+  end
+end
+[/code]
+
+
+So now that all that is settled, we can tell rails to "migrate up" and it will perform the up action of that migration (as opposed to the down action).  
+
+[code]
+$  rake db:migrate
+[/code]
+
+That should create the whole table in the database.  We will now test our code.  
+
+($  rails c)
+[code]
+  my_user = Userz.new
+  my_user.name = "john"           
+  my_user.email = "bla@gmail.com" 
+  my_user.superdestroy           
+[/code]
+
+
+Now, if we decide we don't like what we did, we can undo it using the command line
+
+(run this)
+[code]
+$  rails destroy migration userz
+$  rails destroy model userz
+[/code]
+
+
+
+
+[size="5"]Part 2 - serializing arrays[/size]
+
+
+Now, what if you want your object to have a list of things?  For that, you might expect things to get very tricky, very fast, but in fact you just need to set one of it's attributes to be an array possibly.  
+
+Let's rebuild our model using the quickest possible way, command line.  
+
+[code]
+$  rails g model userz name:string email:string thelist:string
+[/code]
+
+That setup the migration for perfectly, and also started out the model file!  
+
+Let's edit the model the way it was before, except this time, with :thelist serialized.    
+(app/models/userz.rb)
+[code]
+class Userz < ActiveRecord::Base
+  attr_accessible :name, :email, :thelist
+  serialize :thelist
+  
+  def superdestroy
+    puts "beep beep beep DESTROY!"
+  end
+end
+[/code]
+
+
+
+Now test it out 
+($  rails c)
+[code]
+  my_object = Userz.new
+  
+  my_object = [ "foo", "bar", "baz" ]
+[/code]
+
+Remember to do the migrating up part.  Sometimes your tables get 'jammed' and you need to reset them. 
+[code]
+$  rake db:drop
+$  rake db:create
+$  rake db:migrate
+[/code]
+
+
+That's pretty simple.  There's another, slightly more complicated, way to get an object to have lists though, and it gives you lots more control.  
+
+
+
+[size="5"]Part 3 - Indexing other models[/size]
+
+You can setup a second model and have your Userz model reference this model.  
+
+
+list item model:
+
+[code]
+$  rails g model list_item content:string userz_id:integer
+[/code]
+
+That will make the model and migration, and it will reference the foreign key "userz_id" which is apart of the model we've already created in part 2.  
+
+
+(app/models/userz.rb)
+[code]
+class Userz < ActiveRecord::Base
+  attr_accessible :name, :email
+  has_many :list_items
+  
+  
+  def superdestroy
+    puts "beep beep beep DESTROY!"
+  end
+end
+[/code]
+
+
+(app/models/list_item.rb)
+[code]
+class ListItem < ActiveRecord::Base
+  attr_accessible :content
+  belongs_to :Userz
+end
+[/code]
+
+
+Migrate up
+[code]
+$  rake db:migrate
+[/code]
+
+
+Now we're set to test it.  
+
+
+[code]
+  my_user = Userz.create
+  
+  Userz.count   # look at how we can count all the objects of the Userz model.  
+  
+  my_user.list_items.create(:content => "foo")   # this creates a ListItem, and set's its Userz_id equal to my_user.id
+  
+  my_user.id
+  ListItem.first.userz_id             #they should be the same id
+  
+  
+  
+  ListItem.count   # look at how ListItem is similar to Userz
+  
+  
+  
+  my_user.list_items[0]
+  
+  my_user.list_items[0].destroy
+  
+  ListItem.count         # should be 0 now
+[/code]

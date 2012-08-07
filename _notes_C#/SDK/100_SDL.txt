@@ -1,0 +1,23 @@
+http://meandmarkpublishing.blogspot.com/2007/12/setting-up-sdl-with-visual-c-2008.html        //setup in VS 2005 =(
+
+
+
+http://dev.indra-ehm.net/2008/12/setting-visual-studio-2008-for-sdl/            //setup in VS 2008
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,198 @@
+ref:  http://gembundler.com/gemfile.html
+
+NOTICE:  This is an overviews/ adumbration, which you should come back to again after building your first app in order to fill in all the gaps.  
+
+[size="5"]Models, Migrations, Views, Controllers, (and generators)[/size]
+
+You probably already know:
+Ruby  -  Your source code interpreter which allows your code to be executed on the machine (near-synonym: compiler).  
+Gem   -  An installer program that let's you install 'plugin-like' things to be used in ruby code (ie gems).  
+rvm   -  An installer program that let's you install ruby and gem, which also allows you to keep multiple versions of each on your system without conflict
+rails -  A gem that serves as a web framework, allowing for rapid development of CRUD based web applications.  
+
+[size="5"]::Rails[/size] (put this in it's own file)
+Rails is a program that builds a program for you.  Interesting concept isn't it.  The idea of ruby on rails, is to have rails do all the lame stuff, and have you go into the program it generates and make the necessary tweaks to turn it into an awesome web application.  
+ref: http://wiki.rubyonrails.org/rails/pages/availablegenerators
+
+
+[code]$  rails new myapp[/code]
+
+
+[size="5"]The Composition of Rails[/size]
+
+There are four major parts of a rails app: Modes, Migrations, Views, and Controllers.
+
+A [b]model [/b]is a programming object.  It can create, edit, delete and show (when inheriting from ActiveRecord at least).  It can also store variables in memory (not necisarily in the database though).  In rails, the model manifests itself as... app/models/NAME.rb
+
+
+A [b]migration [/b]is an "active record script" that is in charge of creating the database for a specific model.  So if your model were named "Hello" and consisted of a string variable called "name", then the migration for that model would be a ruby script creating a table named "Hellos" with a string column named "name".  Models work together with migrations to build the bridge between your models (read programming objects) and your migrations (read database).  
+You will use the migration command to add columns to an existing database which has already been scaffolded.  Or maybe you'll use it to remove columns.  It's fun and easy.  
+Migration scripts are 'applied' using [inline]$  rake db:migrate[/inline]
+That command checks everything in 'db/migrate/*.rb' and sets it up in the database.  
+You might at first think that, "woah, like, db/migrate/ is going to be full of random crap if everytime I add a column, and then change my mind and remove it, I will see those migration files in the folder!  What a heeping mess of shit!  How do I see what my database looks like through all this steaming cat crap?"  Well, I thought the exact same thoughts, and then I realized, you can see what your database "really looks like" by cat'ing the db/scheema.rb file.  Perrrrrfect.  You are otherwise not really meant to look directly at 'db/migrate/' it's kind of like looking at the sun.  You can do it for a second (right before you migrate up), but you don't gawk at it like some kind of perv.  
+
+
+
+A [b]view [/b]is a set of html.erb files.  That's how you design the look of your website for the most part.  You can litteraly put html code in these files and run it with no experience with how to code actual "erb".  Luckily, actual "erb" is very straight forward and it won't give you andy problems.  It works just like php, only it's a little more fun.  
+
+
+A [b]controller [/b]is a script that determines what logic is performed before the view is displayed.  
+If you want your Zombie to show up displaying his graveyard, in the controller.rb, write the code to store an "instance variable" (@my_example_variable) of his graveyard, and then make sure the view presents that instance variable to the user in html format.  
+"A controller is a container for a group of (possibly dynamic) web pages." -- Michael Hartl (brilliant tutorialist)
+You could also think of a controller as a container for lines of ruby code that relate to a view.  
+
+---
+
+A [b]scaffold [/b]is a generator command that sets you up with a model, migration, view and controller!  All in one command!  That is teh sex.  
+
+Create a model, migration, controller and view.  
+[code]
+$  rails g scaffold Zombie name:string graveyard:string
+[/code]
+
+Delete all the files that were generated for the Zombie model (basically an undo)
+[code]
+$  rails destroy scaffold Zombie
+[/code]
+
+A mailer is a thing that sends mail I think (you know, when ppl first sign up to a sight, they get a comfirmation).  
+[code]
+$  rails g mailer Notifications signup forgot_password invoice
+[/code]
+
+A performance_test is a way for you to test your code's efficiency I guess...
+[code]
+$  rails g performance_test GeneralStories
+[/code]
+
+You can generate migrations, models and controllers manually if you'd like.  
+
+[code]
+$  rails g migration tablename       ~~~creates a migration (must be edited, or added to)
+$  rails g migration add_name_to_tablename name:string   ~~~ adds a name column to table
+
+$  rails g model tablename name:string          ~~~creates a model AND a migration for it
+
+$  rails g controller pages home                ~~~creates a controller and views
+[/code]
+
+
+/end rails
+
+
+
+
+Keeping track of those four things (models, migrations, views and controllers) is important and comes naturally later on, but you might also have seen the terms Rake, bundler?  Read on to discover what these things are.  
+
+
+[size="5"]::Rake[/size]
+The gem 'Rake' is Ruby's version of 'Make' i.e. Rake is to Ruby what Make is to C++.  Rake allows you to do lots of things, such as setup databases and so on...  You'll find your rake tasks located in lib/tasks.  It's common to setup a rake task called populate which populates your database with objects to facilitate development.  
+
+Example:
+[code]
+$  rake db:migrate
+[/code]
+
+
+[size="5"]::Bundler[/size]
+Bundler is a gem that helps you out with installing a bundle of gems for a specific target app.  Each rails app after version 2.x.x should contain a file in it's root called "Gemfile".  This file allows you to specify a list of gems which the app depends on, and also what version of said gem was designed for.  By explicitly declairing this information in the Gemfile, bundler is able to install these gems and enforce that they are used with your app as it runs.  
+
+Examples:
+
+Get lastest version of bundler on your system!
+[code]
+$  gem install bundler           ~~~ get latest version
+[/code]
+
+Install all gems listed in the Gemfile for your app
+[code]
+$  bundle install                
+[/code]
+
+
+Check if we have the gems we need for this app
+[code]
+$  bundle check
+[/code]
+
+The commands used below are obsolete.  Bundler still works the same way though, just uses [inline]$  bundle install[/inline] and [inline]$  bundle update[/inline] instead.
+
+Create a bundle lock file to lock the gem version 'status quo' i.e.  When your gems are locked, they won't update to newer versions when you type [inline]$  bundle install[/inline].  This saves time, so you don't have to manually fill in which version each gem must be in your Gemfile.  You should definately use bundle lock when working with a team on a project.  
+[code]
+$  bundle lock    ~~~ Obsolete, use bundle update
+[/code]
+
+Refresh your gemlock file after you've made changes to your gemfile
+[code]
+$  bundle install --relock
+[/code]
+
+
+
+IMPORTANT!!!! ...supposedly
+To make sure you're using the right gem for your app, you should call bundle exec instead of calling the gem name directly!
+[code]
+$  bundle exec rake db:migrate
+[/code]
+
+
+
+
+
+
+Gemfile examples:
+The contents of your app's Gemfile deserves some example/description pairs too.  open up Gemfile and follow along if you have syntax highlighting (it's in your app root).  
+
+Inform bundler that you depend on the rails gem:
+[code]
+gem "rails"
+[/code]
+
+Depend on a version of a gem:
+[code]
+gem "rails", "<=2.3.12"
+[/code]
+
+Inform bundler that you depend on the sqlite3 gem, whose "main file" is actually named "sqlite3-ruby":
+[code]
+gem "sqlite3-ruby", :require => "sqlite3"
+[/code]
+
+
+Inform bundler that you depend on a gem for specific environments:
+[code]
+gem "wirble", :group => :development
+gem "ruby-debug", :group => [:development, :test]
+
+group :test do
+  gem "rspec"
+end
+[/code]
+
+
+
+Now, to update your bundle you have these commands.  
+
+[code]
+$  bundle install
+$  bundle update    ~~~ for fixing errors ONLY!  Don't waste keystrokes
+[/code]
+
+
+To use a gem within your rails project, you now are encouraged to use 'bundle exec' although I often omit this unless I get errors/ weirdness or am testing.
+
+(this is the official way to call the rspec gem)
+[code]
+$  bundle exec rspec spec/
+[/code]
+
+Feel free to make an alias for casting rspec if that's what you test with.  
+
+
+[size="5"]Rspec[/size]
+
+That brings us to testing.  In rails, you need to do some kind of "unit testing" which is a way of programatically testing the behavior of your app.  
+Coming from C#, I didn't really know about unit testing (although c# has it, it's obscure and out of the way).  
+Have you ever made a small change to an application, that you're working on, say, changed a variable type, and then realized a week later that something you did made a function stop working altogether, and then had to spend a whole day tracking down where the bug came from?  Well, if you had setup unit tests for that failing function, you could have run your 'test suite' and discovered the broken functionality immediately and just remember, "oh yeah, I changed that one thing, that must be the problem".  Could have saved you like 6hrs.  
+Anyway, tests are Sweet!  You should learn how to write them, and when to write them.  But in my opinion, I think it's best to just follow along with them in tutorials, but put them off to the side until you have a solid grasp of rails itself.  
+Tests are fairly easy and straight forward, and they are a necessity (I'm eventually going to learn how to use them in C# too, because this is a life saving concept!).

@@ -1,0 +1,26 @@
+ref:http://ruby.about.com/od/rubyfeatures/a/comment.htm
+:: Obvious
+
+You can run a ruby script by 
+[code]
+$  ruby yourscript.rb
+[/code]
+
+
+:: The Shebang!
+
+If your script begins with the line
+[code]
+#!/usr/bin/env ruby
+puts "hello world"
+[/code]
+
+You can run that code by simply typing:
+[code]
+$  yourscript.rb
+[/code]
+
+
+
+
+

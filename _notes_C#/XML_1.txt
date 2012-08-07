@@ -1,0 +1,323 @@
+//  XML is a file format.  It's like an .ini if you can remember those.  It's the new standard.  It looks a lot like HTML.  The greatest advantage of XML is that it's universal, and robust (does everything you could possibly need it to).
+//
+//   Reading with 'xmlTextReader' works kind of like fso.ReadLine... that is to say that you are moving along the XmlData, focusing on one line at a time, BUT instead of lines, you're focusing on one 'nodes' at a time.
+//   That said, working with XmlDocuments is like fso.ReadNode (if such a thing existed)
+//   Here's an example of a node  <ThisIsANode>  </ThisIsANode>.  There's nothing in that node, but there could be.  Get it?  Look at an XML source now!
+//
+//   Conversly, writing with 'XmlDocuments' works the same as fso.WriteLine (but instead of lines, you're writing nodes).  You can write nodes into nodes... and then nodes into those nodes... and so on.  
+//  .5)  Create an XmlDocument = doc   (doc is now an object of the type XmlDocument)
+//   1)  Create an doc.XmlElement (XmlElementRoot).
+//   2)  Create another doc.XmlElement (XmlElementChild).
+//   3)  Put the child into the root (doc.XmlElementRoot would then read as  <XmlElementRoot>  <XmlElementChild></XmlElementChild> </XmlElementRoot>      )
+//   
+//   4)  All this time, a plain text string has been created, it's in XML format.  That string is accessed by doc.OuterXml
+//   5)  Write the XML doc to a file.   btw, this is how vbs would write the Xml file:   fso.writeline(doc.OuterXml)    
+//
+//   From what I can tell XmlDeclaration is a stupid object which you use to "declare" an XML file as an XML file.  It adds a bunch of garbage to the beginning of the XML file... that's pretty much it...
+//
+//   xmlTextReader
+//                .MoveToContent()     -  This method lets you move to the next element.  
+//
+//  Objects:
+//
+//  XmlDocument                 -  This is the object of XML Documents.  
+//             .
+//             .CreateElement(Name)   -  This will create a new element
+//             .SetAttribute(string aName, string Value)    -  This will create OR set the attribute for the node in focus
+//             .AppendChild(
+//             .InnerText
+//             .SelectNodes("At/This/AllThese")       // this stores all the XmlNodes of an XmlDocument at the corresponding address (storing them in an XmlNodeList object).  I.E.   <at><this><AllThese>... <Nodes> <are> <put> <in> <the> <List>...  </address></this></at>
+//             
+//
+//
+//  XmlNodeList                                                     //  This is a handy object which can house all of the nodes in an XmlDocument
+//       XmlNodeList = XmlDocument.SelectNodes(AtThisAddress)       //  This is the code for creating the XmlNodelist if XmlNodeList has been declared as an XmlNodeList type object
+//                                                                  //  
+//             .SelectSingleNode(Name)                          // This selects a node within a node
+//
+//              
+//
+//  XmlNode                                  // an XmlNode can contain many other nodes inside itself
+//          .SelectSingleNode(Name)          //  This will create an XmlNode object out of the XmlNodeList.  
+//
+
+
+
+//  Put this in the includes section
+using System.Xml;  
+
+
+
+
+// Put this in button
+// Create the xml document containe
+XmlDocument doc = new XmlDocument();                                // Create the XML Declaration, and append it to XML document
+XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", null, null);
+doc.AppendChild(dec);                                               // Create the root element
+XmlElement root = doc.CreateElement("Library");
+doc.AppendChild(root);
+
+// .CreateElement(aName)
+// .SetAttribute(aName,Text)
+
+
+// Create Books
+// Note that to set the text inside the element closes off the element being written to  "</elemnt>"
+//  Element.SetAttribute("thing", "is")  sets  thing="is" within Element
+
+
+XmlElement book = doc.CreateElement("Book");                 // Produces:  <Book>    </Book>                it puts it loose inside the XmlDocument "doc", probably at the end???
+book.SetAttribute("BookType", "Hardcover");                  // Inserts:        <Book BookType="Hardcover">    </Book>      // You use SetAttribute to set attribute             
+                                                             
+
+XmlElement title = doc.CreateElement("Title");               // Produces:  <Title>  </Title>          
+title.InnerText = "Door Number Three";                       // Inserts:       <Title>  Door Number Three</Title>
+                                                             // you use .InnerText instead of .Value (which will throw an exception).
+XmlElement author = doc.CreateElement("Author");
+author.InnerText = "O'Leary, Patrick";
+
+book.AppendChild(title);
+book.AppendChild(author);
+root.AppendChild(book);                                      // This puts <book> and it's children into the <library></Library>  node!
+
+book = doc.CreateElement("Book");
+book.SetAttribute("BookType", "Paperback");
+title = doc.CreateElement("Title");
+title.InnerText = "Lord of Light";
+author = doc.CreateElement("Author");
+author.InnerText = "Zelanzy, Roger";
+book.AppendChild(title);
+book.AppendChild(author);
+root.AppendChild(book);
+
+string xmlOutput = doc.OuterXml;
+
+
+
+
+
+
+// ALTERNATIVE???         **********************************
+
+
+
+
+//The same code but using an XMLWriter to a memory stream.
+
+// Create the root element
+
+
+XmlWriterSettings wSettings = new XmlWriterSettings();
+wSettings.Indent = true;
+MemoryStream ms = new MemoryStream();
+XmlWriter xw = XmlWriter.Create(ms, wSettings);// Write Declaration
+xw.WriteStartDocument();
+
+// Write the root node
+xw.WriteStartElement("Library");
+
+// Write the books and the book elements
+xw.WriteStartElement("Book");
+xw.WriteStartAttribute("BookType");
+xw.WriteString("Hardback");
+xw.WriteEndAttribute();
+
+xw.WriteStartElement("Title");
+xw.WriteString("Door Number Three");
+xw.WriteEndElement();
+xw.WriteStartElement("Author");
+xw.WriteString("O'Leary, Patrick");
+xw.WriteEndElement();
+
+xw.WriteEndElement();
+
+// Write another book
+xw.WriteStartElement("Book");
+xw.WriteStartAttribute("BookType");
+xw.WriteString("Paperback");
+xw.WriteEndAttribute();
+
+xw.WriteStartElement("Title");
+xw.WriteString("Lord of Light");
+xw.WriteEndElement();
+xw.WriteStartElement("Author");
+xw.WriteString("Zelanzy, Roger");
+xw.WriteEndElement();
+
+xw.WriteEndElement();
+
+// Close the document
+xw.WriteEndDocument();
+
+// Flush the write
+xw.Flush();
+
+Byte[] buffer = new Byte[ms.Length];
+buffer = ms.ToArray();
+string xmlOutput = System.Text.Encoding.UTF8.GetString(buffer);
+
+
+
+
+
+
+
+
+// *******************                                 READ *.XML
+//  xmlTextReader methods
+//  http://msdn.microsoft.com/en-us/library/system.xml.xmltextreader_methods(VS.71).aspx 
+//
+
+
+            XmlTextReader reader = new XmlTextReader ("books.xml");
+            while (reader.Read()) 
+            {
+                switch (reader.NodeType) 
+                {
+                    case XmlNodeType.Element: // The node is an element.
+                        Console.Write("<" + reader.Name);
+                        Console.WriteLine(">");
+                        break;
+                    case XmlNodeType.Text: //Display the text in each element.
+                        Console.WriteLine (reader.Value);
+                        break;
+                    case XmlNodeType.EndElement: //Display the end of the element.
+                        Console.Write("</" + reader.Name);
+                        Console.WriteLine(">");
+                        break;
+                }
+            }
+
+            
+
+
+
+
+
+
+
+//                                           Load XML
+     string filename = "date.xml";
+     
+     xmlTextReader reader = new XmlTextReader(filename);
+     reader.WhitespaceHandling = WhitespaceHandling.None;                        // Load the file and ignore all white space.
+
+     reader.MoveToContent();                                                     // ' Moves the reader to the root element.
+
+     string xmlstorage = reader.ReadOuterXml();                                  //  'reads the content of the XML and puts it into a buffer
+
+
+
+
+
+
+//                                            Load XML using Stream  (proper way, otherwise you can't write to the damn thing)
+
+            string filename = "date.xml";
+
+            // load the XML
+            FileStream fs = new FileStream(@filename, FileMode.Open, FileAccess.ReadWrite);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fs);
+            fs.Close();
+            
+            
+            
+            
+//                                         Save XML
+
+            doc.Save(filename);            
+
+
+
+
+
+//                                          Search for a node...???
+
+
+
+
+
+//  XmlDocument.Save
+//  SelectNodes
+.ReplaceChild
+.RemoveChild 
+
+
+
+
+
+
+//                                                                      Parse all nodes within select nodes (using their path) 
+
+//       http://bytes.com/topic/c-sharp/answers/553480-read-xml-file
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Relations>
+<Person>
+<FirstName>John</FirstName>
+<LastName>Smith</LastName>
+</Person>
+<Person>
+<FirstName>Peter</FirstName>
+<LastName>Clinton</LastName>
+</Person>
+</Relations>
+
+
+ArrayList list = new ArrayList(); // or List<stringlist= 
+new List<string>();
+
+XmlDocument doc = new XmlDocument();
+doc.LoadXml(xml);
+
+XmlNodeList nodes = doc.SelectNodes("Relations/Person");
+foreach (XmlNode node in nodes)
+{
+   XmlNode firstNameNode = node.SelectSingleNode("FirstName");
+   XmlNode lastNameNode = node.SelectSingleNode("LastName");
+   list.Add(firstNameNode.InnerText + " " 
+   + lastNameNode.InnerText);
+}
+
+
+foreach (string s in list)
+Console.WriteLine(s);
+
+
+
+The result will be:
+John Smith
+Peter Clinton
+
+
+
+
+
+
+
+
+//                                                              Clean Parse
+
+                 string filename = "date.xml";
+                 XmlDocument doc = new XmlDocument();
+                 doc.Load(filename);
+                 XmlNodeList nodes = doc.SelectNodes("Library/Book");          // gets a list of addresses of all the <Book> nodes contained in <Library>
+
+                 foreach (XmlNode node in nodes)
+                 {
+                     XmlAttributeCollection attCol = node.Attributes;                // Get the node's attributes
+                     XmlNode titleNode = node.SelectSingleNode("Title");     // node.SelectSingleNode(SEARCH)  searches the node for a node.Name == SEARCH.  It returns that node as  XmlNode
+                     XmlNode authorNode = node.SelectSingleNode("Author");
+
+
+                     ListViewItem singleitem;
+                     singleitem = listView1.Items.Add(titleNode.InnerText);
+                     singleitem.SubItems.Add(authorNode.InnerText);
+                     singleitem.SubItems.Add(attCol[0].Value);
+                 }
+
+
+
+
+

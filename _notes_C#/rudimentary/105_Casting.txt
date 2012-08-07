@@ -1,0 +1,17 @@
+
+
+
+// The following code will convert the string "25" into the int32 format and then store that value in the variable ageNumber.
+
+int ageNumber;
+string johnsAge = "25";
+
+ageNumber = (int) johnsAge;
+
+
+
+
+
+
+
+

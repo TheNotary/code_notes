@@ -1,0 +1,142 @@
+
+
+#  if then example
+
+if result == "y"
+  puts "you said 'y'"
+else
+  puts "you said something other than 'y'"
+end
+
+
+
+#  if break example
+
+if true
+  puts "this won't be run"
+end
+
+
+
+
+
+# case switch advanced example  http://ilikestuffblog.com/2008/04/15/how-to-write-case-switch-statements-in-ruby/
+
+
+# Basically if/elsif/else (notice there's nothing
+# after the word "case"):
+
+[variable = ] case
+  when do_Func_Resulting_In_bool_condition
+    statements
+  when do_Func_Resulting_In_bool_condition2
+    statements
+  else # the else clause is optional
+    statements
+end
+
+
+#live example ########################################
+
+var1 = case
+  when true
+    "hi"         # loop exits here
+  when true
+    "Replaced!"  # only one line gets run
+end
+
+# var1 now equals "hi"!
+
+
+
+
+
+
+
+
+# case switch basic ###############################
+
+
+case "hi"
+  when "yo"
+    puts "you said yo"
+  when "hi"
+    puts "you said 'hi'"
+  else
+    puts "I don't know what you said"
+end
+
+
+
+
+
+
+# This important snippent demonstrates how clean you can make cases by using procs...
+
+
+divisible_by_nine = ->(i){ i % 9 == 0 }
+divisible_by_seven = ->(i){ i % 7 == 0 }
+divisible_by_three = ->(i){ i % 3 == 0 }
+ 
+1.upto(50) do |number|
+  print number
+  case number
+  when divisible_by_nine
+    print " is divisible by nine!"
+  when divisible_by_seven
+    print " is divisible by seven!"
+  when divisible_by_three
+    print " is divisible by three!"
+  end
+  print "\n"
+end
+ 
+# versus..
+ 
+1.upto(50) do |number|
+  print number
+  if divisible_by_nine[number]
+    print " is divisible by nine!"
+  elsif divisible_by_seven[number]
+    print " is divisible by seven!"
+  elsif divisible_by_three[number]
+    print " is divisible by three!"
+  end
+  print "\n"
+end
+
+
+
+
+
+
+
+
+      use_current_rsa_files = "y"
+      
+      while true
+        case use_current_rsa_files
+          when "y"
+            use_current_rsa_files_for_this_user()
+            break
+          when "n"
+            create_new_rsa_key()
+            true
+          else
+            puts "plz answer 'y' or 'n'"
+            next
+          end
+      end
+
+
+
+
+
+
+
+
+
+
+
+
+

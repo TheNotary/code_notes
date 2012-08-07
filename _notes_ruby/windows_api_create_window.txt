@@ -1,0 +1,90 @@
+
+refs:  
+http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/30189
+
+http://www.rubytips.org/2008/05/13/accessing-windows-api-from-ruby-using-win32api-library/
+
+http://ruby-doc.org/docs/ProgrammingRuby/html/lib_windows.html
+
+
+
+
+
+require 'Win32API'
+createwindow = Win32API.new('user32', 'CreateWindowEx', ['l', 'p', 'p', 
+'l', 'i', 'i', 'i', 'i', 'l', 'l', 'l', 'P'], 'l')
+print "createwindow:#{createwindow}\n"
+cw = createwindow.call(0, 'SysIpAddress32', 'Hello World', 0x40000000 | 
+0x10000000, 0, 0, 200, 100, 0, 0, 0, 0)
+print "cw:#{cw.inspect}\n"
+
+
+
+
+
+require 'Win32API'
+hInstance = Win32API.new('kernel32', 'GetModuleHandle', ['P'], 'L')
+
+
+def WinMain(s1, hinst, s3, s4)
+  wc = "" #WNDCLASSEX
+  msg = "" #MSG
+  hwnd = "" #HWND
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require 'Win32API'
+
+get_module = Win32API.new('kernel32', 'GetModuleHandle', ['P'], 'L')
+hwnd = get_module.call(0)
+
+janela = Win32API.new("user32", "CreateWindowEx", 'lpplllllllll', 'l')
+window = janela.call(1, "WinClass", "Simple Window", 1, 200, 200, 400, 400, 0, 0, hwnd, 0)
+
+
+
+hwndH = Win32API.new("user32", "FindWindow", ['P','P'], 'N')
+hwnd2 = hwndH.call(0, "Simple Window")
+
+Win32API.new("user32", "ShowWindow", 'll', 'l').call(window, 1)
+Win32API.new("user32", "UpdateWindow", 'l', 'l').call(window)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# This works!
+hwndH = Win32API.new("user32", "FindWindow", ['P','P'], 'N')
+hwnd2 = hwndH.call(0, "PuTTY Configuration")
+
+
+
+
+
+
+

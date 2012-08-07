@@ -1,0 +1,139 @@
+// Great tut using classes    http://www.mycsharpcorner.com/Post.aspx?postID=31
+
+// forms Timer http://www.csharphelp.com/2006/02/c-timer-demo/
+
+
+============== This is for using System.Threading, and NOT windows.forms.Timer.... ==================
+
+
+////  Start a timer that calls a method every tick //
+
+using System.Threading;
+
+            MyTimedObj     myObject = new MyTimedObj();                   // this object has a method that we want our timer to tick
+
+
+            AutoResetEvent autoEvent     = new AutoResetEvent(false);            // this AutoResetEvent object helps us signal the starting thread when the timer should stop  ...in the method put autoEvent.Set() 
+            TimerCallback  methodToCall = myObject.CheckStatus;                // this points to the method we want ticked
+
+            Timer          myTimer   = new Timer(methodToCall, autoEvent, 1000, 250);     // Here's where we start the timer  wait 1000ms before first tick, thereafter, 250     
+
+            stateTimer.Change(0, 500);                   // change the tick period to every 1/2 second.
+
+
+            int TimeToWait = -1;
+            
+            autoEvent.WaitOne(TimeToWait, false);                                    // This lets us paus this thread forever or until autoEvent is .set()
+                                                                                     // the second thread can be running concurrently as this thread runs
+                                                                                     // but sometimes we don't want that
+
+            myTimer.Dispose();                                                   // This is how you stop the timer that we made
+            
+            
+//// End /////////////////////////////////////////////////////////////////////
+            
+            
+            
+            
+            
+////  A timer built into a class //
+
+
+// put this stuff in your class...
+
+
+        public AutoResetEvent Start()              // Starts the number changing thread ticking   ...put this into a class
+        {
+            if (isChanging == false)
+            {
+                autoEvent = new AutoResetEvent(false);
+                TimerCallback methodToCall = this.MethodToTick;
+                
+                numChangeTimer = new Timer(methodToCall, autoEvent, 1000, 250);
+                isChanging = true;
+
+                return autoEvent2;
+            }
+            return null;
+        }            
+            
+  
+        private void MethodToTick(Object stateInfo)
+        {
+            changingnumber = changingnumber*1.2;
+            if (changingnumber > 1000)
+            {
+                AutoResetEvent autoEventc = (AutoResetEvent)stateInfo;
+                autoEventc.Set();
+                isChanging = false;
+
+                this.numChangeTimer.Dispose();        // Stops the other timer
+            }
+        }            
+            
+            
+            
+            
+            
+            
+            
+            
+===========  Here's the stuff for using System.Windows.FOrms.Timer ==============
+http://www.csharphelp.com/2006/02/c-timer-demo/
+
+
+
+using System;
+using System.Windows.Forms;
+using System.Drawing;
+
+class TimerDemo:Form
+{
+Timer Clock;
+Label lbTime=new Label();
+
+public TimerDemo()
+{
+Clock=new Timer();
+Clock.Interval=1000;
+Clock.Start();
+Clock.Tick+=new EventHandler(Timer_Tick);
+
+this.Controls.Add(lbTime);
+lbTime.BackColor=Color.Black;
+lbTime.ForeColor=Color.Red;
+lbTime.Font=new Font("Times New Roman",15);
+lbTime.Text=GetTime();
+}
+
+public string GetTime()
+{
+string TimeInString="";
+int hour=DateTime.Now.Hour;
+int min=DateTime.Now.Minute;
+int sec=DateTime.Now.Second;
+
+TimeInString=(hour < 10)?"0" + hour.ToString() :hour.ToString();
+TimeInString+=":" + ((min<10)?"0" + min.ToString() :min.ToString());
+TimeInString+=":" + ((sec<10)?"0" + sec.ToString() :sec.ToString());
+return TimeInString;
+}
+
+public void Timer_Tick(object sender,EventArgs eArgs)
+{
+if(sender==Clock)
+{
+lbTime.Text=GetTime(); 
+}
+}
+
+public static void Main()
+{
+Application.Run(new TimerDemo());
+}
+}
+            
+            
+SPECIAL NOTICE:  IF YOU CALL A FUNC
+            
+            

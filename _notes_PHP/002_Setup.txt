@@ -1,0 +1,44 @@
+
+
+SETUP A PHP WEBSERVER:
+
+There are two quick ways to get started working with PHP
+
+1)  Install a webserver:  
+  -windows:  
+  -Debian:
+
+
+2)  Buy a domain name bundled with web hosting for something like $6 per year.  
+
+
+TEST:
+
+After you're "Started" simply use your file manager and find the public directory of your web server (usually a folder named "www" or something).  
+Then create a new PHP file called hellow.php
+
+Put the below code in it:
+(www/hellow.php)
+[code]
+<?php
+  echo "hello world";
+?>
+[code]
+
+Then, browser to your server (eg www.yourdomainname.com/hellow.php or localhost:80/hellow.php).  If your web browser screen shows the text "hello world" then you've completed the setup successfully.  If not, you've done something wrong.  
+
+Trouble shoot:
+Remember that if you're doing this in an OS like windows, you can't simply double click your php file and expect it to run.  You need your webserver to run the file for you, and to get the webserver to run the file, you must navigate to the "address" of your webserver.  
+
+It works like the below diagram:
+
+HOW WEBSERVERS HOST WEB PAGES:
+step 1)  Webserver hosts a directory on the hardrive (ie. the web server allows web browsers to connect to it and "download" web pages which your browser will present in the main window).
+
+step 2)  You put a .php file in the directory that the webserver is hosting for you (thus allowing anyone to navigate to the corresponding file and see/ download it from the network).  
+
+step 3)  Someone types in the address of your webserver and the path to your php file, and vwuala, the user's browser will show the web content (eg paste "http://www.ixquick.com/index.html" into your web browser and hit enter).  
+
+Understanding these steps may help you debug your setup problems.  
+
+

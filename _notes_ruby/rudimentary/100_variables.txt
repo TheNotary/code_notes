@@ -1,0 +1,28 @@
+ref:  http://en.wikibooks.org/wiki/Ruby_Programming/Syntax/Variables_and_Constants
+
+
+
+local variables:
+
+
+# this will declair a variable named "foobar" which will be set to the number 3
+foobar = 3
+
+
+# this will declare an instance variable.  
+# instance variables are different... in some way... can be accessed outside of scope?
+@foobar
+
+
+
+# ref: http://www.ruby-doc.org/core/classes/Integer.html
+# you can do lots of cool stuff with integers
+
+65.chr         #=> "A"
+
+
+
+
+
+
+

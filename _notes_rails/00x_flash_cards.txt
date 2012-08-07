@@ -1,0 +1,300 @@
+:rspec
+A gem for testing.  Allows syntax of:
+it "should be valid" do
+  worker.should be_valid
+end
+
+
+:factory girl
+
+
+
+:gravatar
+A gem that handles site-independant avatars:  image uploads, cropping and even storage on their server's dime.  Associates images with emails (or other UID).  The NSA designed it.  
+<%= gravatar_image_tag 'example@railstutorial.org' %>
+
+
+
+:$  bundle install
+Installs all the gems listed in /Gemfile
+
+
+:$  bundle exec rake db:test:prepare
+Sends the structure (and contents?) of the db/development.sqlite3
+Over to the db/test.sqlite3 database.  
+This allows rspec tests to work ok.  
+
+
+
+:get :show, :id => @user  (automatic?)
+Rails automatically replaces '@user' with '@user.id'
+
+
+
+:<%= link_to user_path(@user), @user %>   (automatic?)
+The prototype is link_to text, path
+Rails automatically converts @user to the path for that user.  
+
+
+:h1>img  (what?)
+An img tag within an h1 tag.  
+
+
+
+:@title = @user.name  (mal?)
+A malicious user could register with a name of "<script javascript:Alert('spam');/>Jimmy" in rails 2.x if you didn't escape the @user.name before displaying it on page.  
+
+
+:attr_accessor (mal?)
+If you don't include this along with atleast one symbol, you'll be open to vulnerability supposedly.  
+
+:attr_accessor
+Use this to automatically set up your properties with getters and setters!  
+
+:attr_accessible
+Define which attributes are writable through the web.  
+
+
+:log/production.log (mal?)
+If you don't include a filter statement in config/application.rb to filter things like :password, this file is a security risk, so make sure you filter all sensative data.  
+
+
+
+:rails v < 3.0.6 auto_link (mal?)
+http://weblog.rubyonrails.org/2011/4/6/rails-3-0-6-has-been-released
+
+
+
+
+
+
+:helpers
+These are in app/helpers/application_helper.rb
+They help you format things on your views.  
+
+
+
+:helper (example)
+module ApplicationHelper
+
+  # Return a title on a per-page basis.
+  def title
+    base_title = "Ruby on Rails Tutorial Sample App"
+    if @title.nil?
+      base_title
+    else
+      "#{base_title} | #{@title}"
+    end
+  end
+end
+
+
+:def my_method(user, optional = 50)  (describe)
+This line defines a method.  It's second parameter is optional, and defaults to 50.  
+
+
+
+
+
+
+:rspec a users signup form
+$  rails g integration_test users
+describe "Users" do... "signup"... "failure" do
+  it "should not make a new user" do
+    lambda do
+      visit signup_path
+          fill_in "Name",          :with => ""
+          fill_in "Email",         :with => ""
+          ...
+          click_button
+          response.should render_template('users/new')
+          response.should have_selector("div#error_explanation")
+        end.should_not change(User, :count)
+      ...
+
+
+:when is signup_path available?
+After you set it in config/routes.rb
+(match '/signup', :to => 'foo#bar'
+
+
+:put a div in a view (w. class)
+<%= content_tag(:div, value, :class => "ClassName") %>
+
+
+
+
+:Actions for session a controller 
+new, create destroy
+
+
+
+
+
+:Nested session hash (email, pass)
+{ :session => { :password => "", :email => "" } }
+
+
+
+
+
+:flash[...]
+A hash implimented by Blueprint CSS which allows you to store hashes such as { :error => "bad news" } to be displayed on the next redirect to a page.  
+You might see this in application.html.erb
+It is usually set in controllers to display feedback messages.  
+
+
+
+:flash.now[...]
+Similar to flash, but deletes itself on the next render instead of the next redirect.  
+{inherits_from => { :flash['redirect'] = "render" } 
+
+
+
+:redirect
+I don't know
+
+:render
+I don't know
+
+
+
+:How do you get red errors arround invalid form elements?
+1)  Include <%= render 'shared/error_messages' %> within the form_for block
+2)  Create app/views/shared/_error_messages.html.erb
+3)  Include CSS with a .field_with_errors {...}
+4)  Have the model automatically wrap fields with errors in divs#field_with_errors
+5)  review ch.8 (railstutorial.org/book)
+
+
+
+
+:cookies.permanent.signed[:remember_token] = [user.id, user.salt]
+Creates a permanent cookie (20yr expiration) that stores the user.id in a way that it can only be decrypted with the user.salt hash (neither the id, nor salt are stored).  
+
+
+
+
+:User.authenticate_with_salt(*remember_token) (asterisk?)
+The asterisk means that remember_token is an array, and you would like it split up into individual params to be passed to the function.  
+
+
+
+
+
+
+:Integration tests
+These test the whole application by simulating what the user does on the page, rather than programatically messing arround with the model and controllers.  
+
+
+
+
+:controllers
+HTTP POST, PUT, GET, DELETE, map to methods in the controller.   
+
+
+
+:put /users/17?admin=1
+"send put request" and effectively change user 17 to have admin=1 (works only if admin is publicly accessible, eg attr_accessible).  
+
+
+
+:Show a message while redirecting to the next logical page
+flash[:success] = "Your Message Here"
+redirect_to users_path
+
+
+
+
+
+:@new_micro = @user.microposts.build(:content => "a" * 141)
+Creates a micropost, but automatically assigns the belongs_to value
+So if @user.id == 1, then it will do microposts.create!(... :user_id => 1)
+This is needed since :user_id isn't set to accessible
+
+
+
+
+
+
+:<%= render :partial => 'shared/feed_item', :collection => @feed_items %>
+renders a feed_item partial, passing to it, a collection of "@feed_items"
+
+
+
+
+
+
+
+:citi bank (mal?)
+@micropost = Micropost.find_by_id(params[:id])
+redirect_to root_path unless current_user?(@micropost.user)
+The above code runs a lookup on the Microposts model!
+You should run lookups through the User's association for safty (ch. 11)
+@micropost = @user.microposts.find_by_id(params[:id])
+
+
+
+
+
+:params[:id]
+http://www.example.com/bla/1
+The number "1" is params[:id]
+
+
+
+
+:Authentication vs Authorization (mal?)
+Authentication ensures that the browser is logged into a user account.  
+Authorization ensures that the account is allowed to perform an action.  
+
+
+
+
+:Association Proxy (Vocab)
+  user.microposts    # => [#<Micropost id: nnn, ...>, ...]
+That statement returns a collection type-of-thing.  You can iterate over it.  
+It's an Association Proxy.  
+
+
+
+
+
+:following_ids = user.following_ids;  where("user_id IN (#{following_ids}) OR user_id = ?", user)  (EFFICIENCY?)
+This is bad news if the user is following say 5,000 users.  That would all have to get loaded into memory.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

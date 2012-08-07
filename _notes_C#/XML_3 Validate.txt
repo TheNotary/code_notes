@@ -1,0 +1,21 @@
+//  http://msdn.microsoft.com/en-us/library/hdf992b8(v=VS.100).aspx
+
+
+
+        XmlValidatingReader
+        
+        XmlSchemaCollection
+        
+
+
+
+
+
+
+
+
+
+
+
+
+

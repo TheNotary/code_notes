@@ -1,0 +1,50 @@
+string s = "Wahoo!";
+int n = 452;
+using( Stream stream = new MemoryStream() ) 
+{
+  // Write to the stream
+  byte[] bytes1 = UnicodeEncoding.Unicode.GetBytes(s);
+  byte[] bytes2 = BitConverter.GetBytes(n);
+  stream.Write(bytes1, 0, bytes1.Length);
+  stream.Write(bytes2, 0, bytes2.Length);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

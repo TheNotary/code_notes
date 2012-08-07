@@ -1,0 +1,39 @@
+http://msdn.microsoft.com/en-us/library/6a71f45d.aspx
+
+
+
+
+
+
+
+is - Checks if an object is compatible with a given type. 
+
+if   ( o   is   Class1 )  {...}   that will return true (and run the code of the if statement) if o is an object of the Class1 type, or a type that derives from Class1...   
+
+
+
+
+
+
+
+
+
+
+?: - This does one of two operations, depending on the result of a test...
+
+return x != 0.0 ? Math.Sin(x) / x : 1.0;
+
+// the above line of code is equal to the block of code below.  
+
+if ( x != 0.0 ) then
+   return Math.Sin(x)
+else
+   return 1.0
+End if
+
+
+
+
+
+
+

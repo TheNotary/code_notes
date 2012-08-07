@@ -1,0 +1,63 @@
+//  http://www.xml.com/pub/a/98/07/binary/binary.html
+
+
+
+
+
+
+////////////////XML Schema (.XSD)
+
+XML schemas help the process of creating XML files by placing restrictions on what types of XML elements are to be considered "valid".  
+XML Schemas are kind of like templates for XML files.  
+
+As we already know, XML documents are broken down into nodes (elements, attributes, etc.).  XSDs specify (using layouts termed "Concepts") which elements are used, and what their data types should be.  It also shows you what child elements they should contain.  Keeping a list of these things is helpful to look at as you're programming, helpful to use to enforce constraints on XML files when they're being read (I.E. throw out data that isn't the correct format), and...   
+
+
+
+  ::XML qualified name
+An XML qualified name is a namespace qualified local name in the format of namespace:localname.
+
+
+
+
+
+
+:::::simpleType
+A simple type element is an XML element that doesn't contain any other elements.  
+
+
+
+
+<xs:element name="age">
+  <xs:simpleType>
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="100"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:element>
+
+
+
+
+:::::complexType-
+A complex type element is an XML element that contains other elements and/or attributes.
+
+
+
+
+
+
+   ::Element Substitution
+Let's say that we have users from two different countries: England and Norway. We would like the ability to let the user choose whether he or she would like to use the Norwegian element names or the English element names in the XML document.
+
+To solve this problem, we could define a substitutionGroup in the XML schema. First, we declare a head element and then we declare the other elements which state that they are substitutable for the head element.
+
+
+
+   ::XSD Indicators
+// http://www.w3schools.com/Schema/schema_complex_indicators.asp
+
+
+
+

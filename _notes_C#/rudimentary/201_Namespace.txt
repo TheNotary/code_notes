@@ -1,0 +1,33 @@
+//   Inside a namespace, the compiler accepts only     classes, structs, enums, interfaces, namespaces, and delegates.
+
+
+
+
+//  http://msdn.microsoft.com/en-us/library/z2kcy19k(VS.80).aspx
+
+//  The following example shows how to call a static method in a nested namespace.
+
+// cs_namespace_keyword_2.cs
+using System;
+namespace SomeNameSpace
+{
+    public class MyClass 
+    {
+        static void Main() 
+        {
+            Nested.NestedNameSpaceClass.SayHello();
+        }
+    }
+
+    // a nested namespace
+    namespace Nested   
+    {
+        public class NestedNameSpaceClass 
+        {
+            public static void SayHello() 
+            {
+                Console.WriteLine("Hello");
+            }
+        }
+    }
+}

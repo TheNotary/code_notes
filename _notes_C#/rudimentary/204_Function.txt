@@ -1,0 +1,60 @@
+//  http://csharp.net-tutorials.com/basics/functions/
+
+//  A function is a segment of code that you have programmed, which you have given a name.  Throughout your program, you can 'call' a function by it's name instead of having to type out all the code again.  
+//  There is a slight catch, regarding 'scope' that complicates things.  When you call a function, all of the variables with in the function are local (that means, they aren't recognized outside of the function).  Conversly, all of the variables you have defined outside of the function are not recognized with in the function.  They term this property of functions 'encapsulation' because everything inside the function is encapsulated and seperate from what's outside of the function.  The way you get variables outside of the function is by 'return'ing them.  it's easy to see this in code, watch:
+
+public void MyFunction()
+{
+    Console.WriteLine("this is a 'void' function which can not return a variable, but rather, it does stuff.");
+    return;  // here you return from the function, but you don't actually need to put a return here since once the program gets to the bottom bracket, it automatically returns
+}
+
+public int MyIntegerFunction()
+{
+    int myNumber = 41;
+    Console.WriteLine("See how this function used 'int' where the last one said 'void'?  That makes it so that when this function ends, it can return an integer (and it must do this, or you have to change it to void).");
+    return myNumber;
+}
+
+// in your code, you can call the function like this:
+
+int myVar;  // this makes an empty integer variable
+myVar = MyIntegerFunction();      // this runs the function we wrote, and essentially puts 41 into myVar.
+
+
+
+
+
+
+//  Examples Methods and Functions
+
+
+
+                               
+
+    public class MyClass                             // We create a class which we'll put a function in
+    {
+        public void Process()                        // we create the function called  "Process()"
+        {
+            Console.WriteLine("Process() begin");
+            Console.WriteLine("Process() end");
+        }
+    }
+ 
+ 
+                              
+ 
+    public class Test
+    {
+        static void Main(string[] args)     //MAIN CODE
+        {
+            MyClass myClass = new MyClass();                    //  We create an object of the type MyClass...  this object will thus be born with a "Method" for utilizing the function
+            myClass.Process();                                  //  Use the Method "Process()" to execute the function
+        }
+    }
+
+
+
+
+
+

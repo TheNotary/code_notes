@@ -1,0 +1,73 @@
+
+
+
+# in ruby, a hash is an array that holds key/ value pairs
+# that means that it's an array, whose items are 2 part:  keys (code names) and values (numbers, strings, etc.)
+# create a hash suitible for storing book titels and ratings
+
+books = {}
+
+# good job, now create a book/rating pair within that hash
+
+books["Gravity's Rainbow"] = :splendid
+
+
+# good job, the book's name is "Gravity's Rainbow" and the rating we chose was splendid
+# That ":splendid" object is called a (A)__________ and it has the wonderful properties of
+# (B)_________.  Isn't that handy?  I mean imagine if you wanted to __________ with __________.
+
+
+
+puts books["Gravity's Rainbow"]
+
+
+#  Now let's you the semicolon as the key, and the string as the variable
+
+books = {}
+books[:splendid] = "Gravity's Rainbow"
+
+#  great, now access :splendid
+
+
+puts books[:splendid]
+
+
+books[:splendid] = "Let's change the string associated with splendid"
+
+
+puts books[:splendid]
+
+
+
+::  WAYS TO DEFINE A HASH
+
+# 1  pair by pair
+
+book = {}
+book[:name] = "Gravity's Rainbow"
+book[:author] = "Dumpy McDumpster"
+
+
+# 2  Hash at a time
+
+book = { :name => "Gravity's Rainbow", 
+         :author => "Dumpy McDumpster" }
+
+
+
+::  WHERE DO HASHES USUALLY COME FROM?
+#  Databases
+
+t = Tweet.find(3)      #  this returns a hash to 't'
+
+puts t[:id]
+]
+
+
+
+
+
+
+
+
+

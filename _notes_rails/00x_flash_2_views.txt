@@ -1,0 +1,19 @@
+
+>> link_to ?, ?
+link_to zombie.name, zombie_path(zombie)
+
+
+>>  Link to the edit page
+edit_zombie_path(zombie)
+
+
+>>  Link to the profile page
+path_to(zombie)
+
+
+
+
+
+
+
+

@@ -1,0 +1,141 @@
+
+Ok, ajax is cool, but it has strict rules that make it so you can only pull content from the local server.  
+That means you can't pull data from server B by navigating to server A... But...
+curl LOVES it when you do that.  
+
+Here's an example script that shows you how you can use the CURL functions to downloade a website.  
+
+
+(openpage.php)
+[code]
+<?php
+
+
+/**
+ * Get a web file (HTML, XHTML, XML, image, etc.) from a URL.  Return an
+ * array containing the HTTP server response header fields and content.
+ */
+function get_web_page( $url )
+{
+    $options = array(
+        CURLOPT_RETURNTRANSFER => true,     // return web page
+        CURLOPT_HEADER         => false,    // don't return headers
+        CURLOPT_FOLLOWLOCATION => true,     // follow redirects
+        CURLOPT_ENCODING       => "",       // handle all encodings
+        CURLOPT_USERAGENT      => "spider", // who am i
+        CURLOPT_AUTOREFERER    => true,     // set referer on redirect
+        CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+        CURLOPT_TIMEOUT        => 120,      // timeout on response
+        CURLOPT_MAXREDIRS      => 10,       // stop after 10 redirects
+    );
+
+    $ch      = curl_init( $url );
+    curl_setopt_array( $ch, $options );
+    $content = curl_exec( $ch );
+    $err     = curl_errno( $ch );
+    $errmsg  = curl_error( $ch );
+    $header  = curl_getinfo( $ch );
+    curl_close( $ch );
+
+    $header['errno']   = $err;
+    $header['errmsg']  = $errmsg;
+    $header['content'] = $content;
+    return $header;
+}
+
+// Start Here
+
+$myUrl=$_GET["url"];                  // you could use this for getting openurl.php?url=www.google.com
+                                      // To make a proxy server
+
+$dalas = get_web_page("http://www.google.com");   // loads GOOGLE.COM
+echo $dalas['content'];
+
+?>
+[/code]
+
+
+
+Now, you can navigate to downloadWebpageexample.php and see the contents of GOOGLE.COM, or you can make an index.html page that
+will use ajax to load the php page above, which will subsequently load GOOGLE.COM on the foriegn server.  (lol, this sounds so complicated, 
+but watching it in action is very elegant and simple).
+
+               // start here...
+index.html     // this calls openpage.php and loads what ever it returns into an element
+
+openpage.php   // this opens up a target page like GOOGLE.COM  and presents it
+
+
+GOOGLE.COM     // this waits to be accessed by our web server.  It's contents will be shown
+
+
+
+
+(index.html)
+[code]
+
+
+<html> 
+<head> 
+<script type="text/javascript"> 
+function openPage()
+{
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("body1").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","openpage.php",true);
+xmlhttp.send();
+}
+</script> 
+</head> 
+<body onload="openPage();" id="body1"> 
+<input type="text" id="site"/>
+<input type="button" onclick="javascript:openPage(site[text])"/>                      //THIS ISN'T WRITE YET!
+ 
+  <div id="content">
+    WebPage goes here...
+  </div>
+ 
+</body> 
+</html> 
+
+[/code]
+
+
+
+
+Now that that's settled, we can change the target address to be a variable passed to the php script...
+Then we would have our very own http proxy!  
+
+To Do:  
+rewrite href="http://www.example.com/foo" to href="openpage.php?url=http://www.example.com/foo"
+SSL encryption
+Custom javascript encryption layer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

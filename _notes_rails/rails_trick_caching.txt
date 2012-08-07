@@ -1,0 +1,14 @@
+It looks like rails is just a series of tricks.  In your rails code, you can set instance variables
+
+@bla = HeavyServerFunction if @bla == nil
+
+Another way to write this is
+
+@bla ||= HeavyServerFunction
+
+That will set @bla to the result of the time intensive function, only if bla hasn't been set yet (presumably by it).  
+
+
+
+
+

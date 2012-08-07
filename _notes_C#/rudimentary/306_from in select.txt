@@ -1,0 +1,63 @@
+
+
+
+
+
+
+
+
+using System.Linq;
+
+public ContactInfo GetContactInfo(SelectSample2 app, int id)
+            {
+                ContactInfo cInfo =
+                    (from ci in app.contactList
+                    where ci.ID == id
+                    select ci)
+                    .FirstOrDefault();
+
+                return cInfo;
+            }
+            
+
+Look at this example now, it's simpler:
+
+              var x = new List<int>() { 8, 9, 10, 11 };
+              var myList = (from y in x where y > 9 select y);
+              MessageBox.Show( myList.FirstOrDefault().ToString() );
+
+    
+Let me explain.  Consider the list:
+              
+              var x = new List<int>() { 8, 9, 10, 11 };
+              
+If you want specific elements from x, you can create a new list by picking out the desired elements, as follows:
+            
+              var myList = (from y in x where y > 9 select y);
+              
+Now myList contains every element that was in x which was greater than 9.  
+You can get the first element of the new list by the method .FirstOrDefault()
+
+              MessageBox.Show( myList.FirstOrDefault() );
+
+This code can be condensed once you get the hang of it in the following form:
+
+              var x = new List<int>() { 8, 9, 10, 11 };              
+              
+              int theValue = (from y in x 
+                           where y > 9 
+                           select y)
+                           .FirstOrDefault();
+              
+              
+
+            
+            (from   variable       in       ListToIterateThrough
+            where  variable.conditionToCheck  ==  id
+            select variable.toReturn)
+            .FirstOrDefault();
+            
+            
+            
+            
+            

@@ -1,0 +1,63 @@
+//  http://www.csharp-station.com/HowTo/ReadWriteTextFile.aspx
+// Put this in the includes section
+using System;
+using System.IO;
+
+
+
+
+
+//                               WRITE TO .txt
+// Put this in the button
+                                                
+            TextWriter tw = new StreamWriter("date.txt");         // create a writer and open the file
+                                        
+            tw.WriteLine(DateTime.Now);                          // write a line of text to the file
+                        
+            tw.Close();                                          // close the stream
+            
+            
+            
+            
+//                           READ FROM .txt
+// Put this in the button
+                                                      
+            Textreader tr = new StreamReader("date.txt");    // create reader & open file
+                                             
+            MessageBox.Show(tr.ReadLine());                 // read a line of text
+
+            tr.Close();                                     // close the stream          
+            
+            
+ 
+ 
+ //                        READ ALL OF A .TXT
+ //  Put this in button
+
+            TextReader tr = new StreamReader("date.txt");
+            
+            string EntireFile;
+            EntireFile = tr.ReadToEnd();                 // read the whole file and store it in the variable
+                                         
+            MessageBox.Show(EntireFile);
+                                            
+            tr.Close();                                  // close the stream
+            
+            
+            
+
+
+
+//  Loop through a text file line by line
+//
+
+    StreamReader reader = File.OpenText(@"C:\myfile.txt");
+    
+    while (!reader.EndOfStream)
+    {
+        string currentLine = reader.ReadLine();
+    
+        // Do something with the current line
+    }
+
+

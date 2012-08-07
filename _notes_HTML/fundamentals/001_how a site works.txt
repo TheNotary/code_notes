@@ -1,0 +1,115 @@
+
+
+
+How a site works....
+
+
+
+
+Basically every site has a body.  
+
+  <body>
+
+Within that body, every site has a single Page wrap
+
+  <body>
+    <div id="page-wrap"/>
+  </body>
+
+
+It is important to note, that body contains one, and ONLY ONE element!
+
+
+
+::Page-wraps
+Page-wraps are just columns within the website.  
+Page-wraps are usually centered using  [inline]margin: 0 auto;[/inline] in their css markup.  There is no need to set their positioning explicitly because there is only one element within the Body.  
+You do also need to set it's width though, and possibly it's border.  [inline]width: 1000px[/inline] is pretty typical of websites today.  
+
+
+Every page-wrap consists of three things
+
+1)  Top Banner
+2)  content-Area
+3)  footer
+
+
+There is no need to set positioning on the Top Banner, because it is the first element within the pagewrap and is intended to appear first.  
+
+The Content area does not need to be manually possitioned either, because it is the secend element within the page-wrap and so will appear directly below the Top banner.  
+
+That's how a website is meant to flow.  Every website is broken down into levels.  If you wish to increase the distance between levels, you can adjust the margins of the item you would like to move.  [inline]margin-bottom:20px[/inline] [inline]margin-left:100px[/inline]
+
+
+
+::Content-Area
+  <div id="content-area">
+    <div id="left-content">
+    <div id="right-content">
+    <div id="center-content">
+  </div>
+
+Let's talk about a 3 column content area.  
+You can have a column on the left side, and a column on the right by floating them.  [inline]float:left;[/inline] and [inline]float:right;[/inline].  
+When floating you just need to specify the widths.  
+With the two outer columns floated, you don't need to specify anything special for the center column.  
+
+
+::Advanced
+You can use padding divs if you'd prefer that over adjusting the top margin of your main wraps.  That way your cleverly built content divisions are entirely placement independant.  
+
+
+<div class="cnn_pad15top"></div>
+
+.cnn_pad15top {
+    padding: 15px 0 0;
+}
+
+
+
+
+
+::Alternaitve  "levels"
+
+If you have 3 elements within a page-wrap, and you float the first two elements LEFT, and their combined width is the width of the page-wrap containing them, then the 3rd element will be pushed below the first two!  
+I don't know why you would do things that way, but you can see it happening within one of the controls on CNN.com
+
+ALSO, if the 3rd element is the same width as the page-wrap, then it will automatically be below the first two divs, and on it's own line.  So if there's a fourth element added, it's below all of these elements!
+
+This all relies on a "clear div"
+
+:: clear div
+To seperate levels, you sometimes will use a clear div, to ensure that the rest of the container wont inherit any previously set floats.  
+
+
+<div class="cnn_clear"></div>
+
+.cnn_clear {
+    clear: both;
+    height: 1px;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+::Wide-wrapped pages
+
+Instead of using page-wraps, where you create a narrower column running down the center of a webpage, you can create a wide-wrapped page.
+In a wide-wrapped page, your page-wrap is the width of the body, 100% (or it simply is the body).  And for each level, you create a page-wrap.  
+With this type of layout, you may have to create additional divs because each layer will need one for it's "core" column.  
+The advantage is that you can have your header image stretch widely across the page, instead of being crammed into a narrow page-wrap.  
+
+
+
+
+
+

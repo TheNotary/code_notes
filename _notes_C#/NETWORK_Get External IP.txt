@@ -1,0 +1,44 @@
+        /// <summary>
+        /// this returns your IP address by going online to an IP reporter webpage and downloading the string it reports.  
+        /// Btw, you can get at the string by GetExternalIp().ToString()
+        /// Relys on http://www.whatismyip.com/automation/n09230945.asp working right
+        /// </summary>
+        /// <returns>returns null if something goes wrong</returns>
+        public static IPAddress GetExternalIp()
+        {
+            // this is their special page that simply returns the string consisting of your IP address
+            string whatIsMyIp = "http://www.whatismyip.com/automation/n09230945.asp";      
+            WebClient wc = new WebClient();
+            UTF8Encoding utf8 = new UTF8Encoding();
+            string requestHtml = "";
+            try
+            {
+                requestHtml = utf8.GetString(wc.DownloadData(whatIsMyIp));
+            }
+            catch (WebException we)
+            {
+                // do something with exception
+                Console.Write(we.ToString());
+            }
+
+
+            int L1 = requestHtml.Length;    // Get length of IP address
+            int L2 = requestHtml.Replace(".", "").Length;  // remove decimal points and get new length
+
+            bool didFindValidIP;
+            if (L1-L2 == 3)       // were there 3 decimal points?  That means it worked!
+                didFindValidIP = true;
+            else
+                didFindValidIP = false;
+             
+
+            IPAddress externalIp = null;
+            if (didFindValidIP)
+            {
+                externalIp = IPAddress.Parse(requestHtml.ToString());
+            }
+            return externalIp;
+        }
+        
+        
+        

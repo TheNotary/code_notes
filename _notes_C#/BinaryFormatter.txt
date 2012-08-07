@@ -1,0 +1,21 @@
+				FileStream s = new FileStream(path, FileMode.Open);
+				IFormatter f = new BinaryFormatter();
+				Settings loadedSettings = f.Deserialize(s) as Settings;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				

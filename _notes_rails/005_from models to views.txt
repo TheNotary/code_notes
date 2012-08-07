@@ -1,0 +1,460 @@
+
+
+Ok, in our last iteration of |blog| we wrote of models and how we can create our snazzy programming 'objects'.  Here we will explain how to get infromation from the user into our objects (oh the things we will do).  
+
+
+
+Your first question might be, "How do we create an object?"  And the answer to this saucy question is, we put code in our controllers to create the objects.  
+
+Let's setup a scratch program.  Put it in your 'dev/rails/sc' folder or what ever file system you use to keep organized.  'sc' is short for "scratch".  
+
+
+[code]
+$  rails new views_to_models; cd views_to_models
+
+$  rails g scaffold Users name:string email:string thelist:string
+
+$  rake db:migrate
+[/code]
+
+
+Now we want to edit the model so it serializes an array of strings passed to it properly (cause that's what we're after today).  
+
+(app/models/user.rb)
+[code]
+class User < ActiveRecord::Base
+  attr_accessible :name, :email, :thelist
+
+  serialize :thelist
+end
+[/code]
+
+
+
+
+Now let's get a look at the controller, which will have the creation/ edit code for our model.  
+
+(app/controllers/users_controller.rb)
+[code]
+  .
+  .
+  .
+  # GET /users/new
+  # GET /users/new.xml
+  def new
+    @user = User.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @user }
+    end
+  end
+  .
+  .
+  .
+  # POST /users
+  # POST /users.xml
+  def create
+    @user = User.new(params[:user])
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  
+[/code]
+
+The code in the 'new' method will be run when we navigate to 0.0.0.0:3000/users/new
+
+Test it out now!  
+
+Let's prove it by manipulting the code in new
+
+(app/controllers/users_controller.rb)
+[code]
+  .
+  .
+  .
+  # GET /users/new
+  # GET /users/new.xml
+  def new
+    @user = User.new
+    @user.name = "paul"
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @user }
+    end
+  end
+  .
+  .
+  .
+[/code]
+
+
+NOW GO TO 0.0.0.0:3000/users/new and see what happens!  (paul should be in the name input box).  
+
+You might not know this yet, but when you navigate to that new, the controller renders the 'app/views/users/new_html.erb' view, and that view renders the _form.html.erb partial.  You can inspect those files if you'd like, but in this tutorial, we're just going to view the source code of the website after we navigate to it in our browser.  
+
+
+
+
+Inspect the source code of the html generated, (I chose to use firefox's FireBug).  
+
+[img] 01_submit form.bmp [/imp]
+
+You'll see that the form is POSTing to /users.  That means it leads to the create method in our users_controller.rb!  
+
+So let's look at that code again:
+(users_controller.rb minus the fluff)
+[code]
+  # POST /users
+  def create
+    @user = User.new(params[:user])
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+      else
+        format.html { render :action => "new" }
+      end
+    end
+  end
+[/code]
+
+So the first line is the only important line is the first line.  That line is taking the 'params' and opening the :user hash, and using that data to create a new user.  
+
+"What are 'params'?" you might ask.  Well, let's spoff the form submission using the command line.  
+
+(you need curl installed.  It's linux only, windows ports are likely broken.)
+[code]
+$  curl --data "user[thelist]=testlist&user[name]=paul&user[email]=t@g.com" \
+    http://localhost:3000/users
+[/code]
+
+After that's done, refresh the page and you should see a new user at /users, even though you didn't use the html interface to make that happen.  
+
+That should --first of all, be eye opening; just because 'you didn't code for it' doesn't mean it can't happen.  
+It should also illustrate how html submission forms works.  
+
+1)  Each input element has a name
+2)  Each input element can take user "input"
+3)  The user input is passed into rails by its name
+
+So when an input box is named 
+[code] name="user[thelist]"[/code]
+
+It will be available to rails in the params hash as:
+
+[code]
+params = { 
+            "users" =>
+                    { 
+                      "thelist" => "WHAT YOU TYPE" 
+                    }
+         }
+[/code]
+
+That's uhh... Somewhat messy for me to look at because I'm not used to all this web stuff, but I tried to make it clear.  
+
+
+================ Hashes Explanation
+
+A hash is a key/value pair.  The keys and values are all just strings (or occationally symbols/enums).  
+
+Key/Value pair:
+[code]
+"im_a_key" => "im_a_value"
+[/code]
+
+Hash with one key value pair:
+[code]
+im_a_hash = { "im_a_key" => "im_a_value" }
+[/code]
+
+
+Now the tricky part is that a hash can contain 'sub' hashes as their key/value pairs.  
+
+[code]
+im_a_BIG_hash = { 
+                  im_a_little_hash => { "im_a_key" => "im_a_value" } 
+                  im_a_tiny_hash => { "so" => "small" } 
+                }
+[/code]
+
+
+Ok, so that's kinda complicated.  Here's how you can get little's value and also tiny's value too.  
+
+[code]
+littles_val = im_a_BIG_hash["im_a_little_hash"]["im_a_key"]   # returns "im_a_value"
+tinys_val   = im_a_BIG_hash["im_a_tiny_hash"]  ["so"]         # returns "small"
+[/code]
+
+
+
+
+====== End explanation
+
+
+
+Ok, so now we should understand how to get values out of params (consider [inline]params["user"]["thelist"][/inline]).  Let's prove that we know what we're talking about with our controller.  
+
+
+
+(app/controllers/users_controller.rb)
+[code]
+  # POST /users
+  # POST /users.xml
+  def create
+    @user = User.new(params[:user])
+    @user.name = params[:user][:thelist]   # this will make it so no matter what we type in the name input box, 
+                                           # it will always be saved as what's put in 'thelist' input box. 
+                                           # notice we can use :symbols or "strings".  :symbols are usually faster/smaller
+                                           # since they're binary articles instead of whole strings of words
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+[/code]
+
+
+
+That's great.  You can test it out for yourself and see that what ever you put in thelist's input box will be saved as both the name and the "thelist" variable.  
+
+
+
+Now we can move on to collecting dynamic input...  
+
+1)  We need to download jquery and put it in our public/javascripts directory.  
+2)  Then we need to write a new javascript file that dynamically generates input boxes.  
+3)  Then we need to code a rails function that will check the contents of all the dynamically generated boxes.  
+
+
+consider this as our dynamic input box's markup
+
+[code]
+  <div class="field">
+    <input id="dyn_0" name="dynamic[0]" size="30" type="text"/>
+  </div>
+[/code]
+
+
+
+So we need ajax to dynamically add that html to our web page when the user clicks some kind of a "+" button.
+
+
+
+Let's start by thinking about the javascript.  
+
+ref:  http://upcomer.wordpress.com/2011/03/22/rails-3-jquery-basics/
+
+
+Ok, we'll need to register a click event and put it on our "+" button, 
+and when that button does get clicked, some ajax will fire off and increment the number of input boxes displayed.  
+
+Let's make the HTML buttons all setup first so we have something to look at...
+
+(put this to the right of thelist's input box in vi app/views/users/_form.html.erb)
+[code]
+  <div class="field">
+    <%= f.label :thelist %><br />
+    <%= f.text_field :thelist %>
+    .
+    . (The stuff below is the new stuff)
+    .
+    <span class="more-items">
+      <a id="add-item-enabled" href="#add-item" onclick="additems();">more <span class="plus">+</span></a>
+    </span>
+    
+    <span class="less-items">
+      <a id="rem-item-enabled" href="#rem-item" onclick="remitems();">delete <span class="plus">-</span></a>
+    </span>
+    .
+    .
+    .
+  </div>
+[/code]
+
+
+Now that we have the buttons we can start thinking about giving the buttons power with jQuery.  
+
+We'll start with just the function to add a new input box.  
+
+(public/javascripts/users_form.js)
+[code]
+
+var boxcount = 1;  // we need this global variable to track the number of boxes
+
+function additems(){ 
+	
+	if (boxcount > 5) {    // uhoh, you're not supposed to add TOO many boxes
+		alert('the idea of a news blast is to relay short bursts of information so please try to use just 5 boxes, or write it in your blog.');
+		return;
+	}
+	
+	
+	
+	boxcount++; // increment the counter
+      
+	// create a new box
+
+	var index = boxcount-0;
+	
+	var divOpen = '<div class="field" id="dyn_' + index + '">';
+	var box = '<input id="dyn_' + index + '" name="dyn[' + index + ']" size="30" type="text" /> ';
+	var divClose = '</div>';
+	
+	$("#inputBottom")
+		.before(divOpen + box + divClose);
+
+};
+[/code]
+
+
+That code should be pretty much straight forward.  That jQuery stuff at the bottom might be a little confusing though.  
+
+basically, [inline]$("#inputBottom")[/inline] is short hand for "Look up html element with ID=inputBottom".  
+Once you have that object returned, you can immediately cast '.before' on it, which will append new stuff right before that element in the html markup.  
+
+The way I decided to setup the markup is the BEST way to set it up.  Just follow my lead, it's awesome.  
+
+
+Now on to the remitems() function
+
+
+
+(public/javascripts/users_form.js)
+[code]
+.
+.
+.
+function remitems(){ 
+	
+	if (boxcount == 1){return;}
+	
+	
+	var index = boxcount-1;
+	
+	$("#dynd_"+index).remove();
+	
+	boxcount--;
+};
+[/code]
+
+
+
+Well, that's a snap!  Now how do we get that data to rails?  Let's look int the CONTROLLER!!! (peWPewpEWlIGhTNIngpEWPEW)
+
+
+As implied above.  The controller is where all the lightning happens.  So let's look at some of that controller lightning right now.  
+
+
+(app/controllers/users_controller.rb)
+[code]
+  def create
+    @user = User.new(params[:user])
+    #@user.name = params["user"]["thelist"]
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+[/code]
+
+
+
+There we go, the top of that listing should be pretty familiar.  Remember when we were proving how to access specific values from the params hash?  
+Well now let's use that same technique to prove that we have access to the dynamically generated input boxes.  
+Change that line to read:
+
+[code]
+    @user.name = params["dyn"]["1"]
+[/code]
+
+Then goto '/users/new' and...
+  1)  Click the more button to create an extra input box
+  2)  Input something into it, like "FRANKLY MY DEAR!  I DON'T!  GIVE!  A!  DAMN!" 
+  3)  Click the save button
+
+And vwuala!  You should see that it substituted your message as the name.  Great!  I started doing this not sure if it was a dead end, but it's not!  We're on track!  
+
+
+
+So let's make the final change to the view, making :thelist input box be IDed as "dyn_0"  (just makes sense to be the same as the other boxes, right?).  
+
+(app/views/users/_form.html.erb)
+[code]
+    .
+    .
+    .
+    <div class="field">
+      <%= f.label :thelist %><br />
+      <%= f.text_field :thelist, :id => 'dyn_0', :name => 'dyn[0]' %> 
+    .
+    .
+    .
+[/code]
+
+
+J-snazzedge!  Now lets think about how we're going to get the lightning to happen so that all those values get 'amalgamated' (that means 'poured into with many octopus arms') into our :thelist array which is set to be serialized properly.  
+
+
+I'll just show you the beautiful ruby code because it speaks for itself.  
+
+(app/controllers/users_controller.rb)
+[code]
+  # POST /users
+  # POST /users.xml
+  def create
+    @user = User.new(params[:user])
+    #@user.name = params["dyn"]["1"]
+    @user.thelist = []
+    
+    params[:dyn].each do |n|
+      @user.thelist << n[1]
+    end
+    
+    
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+[/code]
+
+
+
+Well, maybe it's not the most beautiful ruby code ever, but I made it my self so I appreciate it.  
+
+
+
+
+Sadly, what if we need to edit the damned thing...  You'll see a mess in the :thelist section.  I have NO CLUE how to fix this one.  Maybe I'll update this after asking on the forums, but this question is getting pretty obscure.  
+
+

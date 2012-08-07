@@ -1,0 +1,80 @@
+>>Scenario:
+
+I have:
+1) A main.rb,
+2) A Board class
+3) A Region class
+
+
+
+I instantiate a Board object in main myBoard = Board.new.
+
+myBoard populates itself with 9 'Region' elements.
+
+myBoard has a method to 'set_val'. This is a trivial matter since regions are defined in the Board class.
+
+As things developed, it turned out I needed to set variables in other Regions from within a region. So I would like to invoke Board::set_val from within a Region.
+
+This is difficult because self is only 1 of the 9 regions that needs to have values altered.
+
+How can I do this?
+
+
+>>Solution:
+
+[code]
+class Board
+  attr_accessor :regions
+
+  def initialize
+    @@regions_ext = []
+    @regions = []
+    (0..8).each do |i|
+      @regions[i] = Region.new
+      @@regions_ext[i] = @regions[i]
+    end
+  end
+
+  def set_val(v)
+    @regions.each do |reg|
+      reg.index = v
+    end
+  end
+
+  def self.set_class_val(index,slot,val)
+    @@regions_ext[index][slot] = val
+  end
+
+  def print_it
+    p @regions
+  end
+
+end
+
+
+class Region
+  def initialize
+    @arry = []
+  end
+
+  def r_func
+    Board.set_class_val(1,0,20)
+  end
+
+  def []=(index, val)
+    @arry[index] = val
+  end
+end
+
+
+my_board = Board.new
+
+
+my_board.regions[5].r_func   # from within the 5th region, set the first region's 0th slot to... 20!!!
+
+Board.set_class_val(0,0,1)      # from the board class, set the 0th region's 0th slot to 1
+
+my_board.print_it    #prove that we did that stuff.
+
+
+[/code]

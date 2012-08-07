@@ -1,0 +1,148 @@
+= How to test your app: Console, Test Suites, and more!
+
+
+Rails developers are fortunate enough to have been given a fancy console to debug applications with.  This is kind of like debugging with visual studio and typing into the watch pane, but damn the console feels so new and cool!  
+
+If you want to check how many posts a user has made, you can dump that info using the console easily.  You can even change their data too!  
+
+<:: Console
+
+:: Setup a new test app
+$  rails new testcon
+$  cd testcon
+
+$  rails g scaffold User name:string email:string
+$  rails g scaffold Micropost content:string user_id:integer
+$  bundle exec rake db:migrate
+
+:: Update relationships
+# make it so users has many  and microposts belongs to users
+
+:: create a user and a post for that user
+localhost:3000/users/new
+localhost:3000/microposts/new
+
+
+:: Get into the console
+
+$  rails console
+
+ruby >  first_user = User.first  # you can see the user you just made
+ruby >  first_post = first_user.microposts.first    # You can see the post too
+
+
+
+
+User.first.microposts.first.destroy  # try _destroy if that doesn't get it.  Also try .methods to see more options
+
+We don't really have anything to debug, so at this point we're done...
+
+
+
+
+<:: Tests
+ref:  http://ruby.railstutorial.org                            ~~mega rails tut (see chapter 10)
+ref:  http://ph7spot.com/musings/getting-started-with-autotest  ~~autotest overview
+ref:  
+
+:: Unit tests
+Ruby has something called "unit tests" where you test assertions.  INCLUDE THAT PRINTOUT I MADE HERE LINK!
+
+
+Rails has a few gems that make testing more useful and powerful...
+
+
+
+
+::RSpec
+$ gem install rspec
+
+From what I can tell, RSpec is an alternative form of Unit::Tests.  You use a more english like syntax that forces you to write good test descriptions.  It let's you run assertions multiple times.  
+
+[code]
+# bowling_spec.rb
+require 'bowling'
+
+describe Bowling, "#score" do
+  it "returns 0 for all gutter game" do
+    bowling = Bowling.new
+    20.times { bowling.hit(0) }
+    bowling.score.should == 0
+  end
+end
+
+
+# bowling.rb
+class Bowling
+  def hit(pins)
+  end
+
+  def score
+    0
+  end
+end
+[/code]
+
+
+
+
+
+
+
+:: Autotest
+Autotest is a program that runs in the background and intelegently runs tests against your rails app when you change files (eg change controller X results in test on controller X)
+
+$  gem install ZenTest                               ~~~ the testing package
+$  gem install autotest -v 4.4.6                     ~~~ the rails plugin
+$  gem install autotest-rails-pure -v 4.1.2          ~~~ for good measure!
+
+$  gem install autotest-growl -v 0.2.9
+
+run autotest for your rails app:
+$  autotest
+
+It will perform all tests, and then wait until you modify a file before testing that file.  
+
+
+
+
+
+
+:: Spork
+Testing is good, but by default it is done very inefficiently.  The problem is that to test a rails app you need to load the rails environment, and then run the tests each time you want to test.  Spork loads the environment and keeps it going in the background so you don't waste a bunch of time starting up and shutting down the rails application.  
+
+(vi Gemfile)
+gem 'spork', '0.9.0.rc5'
+
+You should bootstrap the spork configuration...
+$ spork --bootstrap
+
+setup rspec with spork
+(vi spec/spec_helper.rb)
+[code]
+require 'spork'
+
+Spork.prefork do
+...<wrap everything>
+...
+end
+
+Spork.each_run do
+end
+[/code]
+
+
+
+
+
+
+:: Timing!
+
+$  time rspec spec/
+
+
+
+
+
+
+

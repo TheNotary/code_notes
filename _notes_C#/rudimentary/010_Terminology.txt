@@ -1,0 +1,156 @@
+
+Static -  to declair a "public static class TheClass {...}"  will make it so you can't instanciate the class as a new object, but it is it's own little object and has self instanciated  =O    
+
+
+
+
+// Here's a great glossary at msdn!  http://msdn.microsoft.com/en-us/library/618ayhy6.aspx
+
+//  
+
+
+
+
+
+
+
+@   When the at sign (@) occurs before an identifier—the name of a method, property, variable, …—, then the compiler will consider the following string to be an identifier even if the string already has a meaning, e.g. a keyword. 
+
+For example, this line will fail to compile: 
+int new = 1776;   // 'new' is a keyword 
+
+but this line works
+int @new = 1776;
+
+
+
+
+
+primitive data types
+
+
+               ::::::::::::::::::::::::C# specific
+
+Namespace
+
+Public
+
+field - A field is a variable of any type that is declared directly in a class or struct. Fields are members of their containing type.
+http://msdn.microsoft.com/en-us/library/ms173118.aspx
+
+Property -  A property is a part of a class (or a member of a class structure).  Properties expose fields.  Properties provide a level of abstraction allowing you to change the fields while not affecting the external way they are accessed by the things that use your class... example:  if you want TIMEClass.time() to return minutes, the field inside TIMEClass named "_time" would be retuned.  If later on in developement, you wanted TIMEClass.time() to return hh : mm  (hours : minutes) then you would only need to go into TIMEClass's method ("time" I think) and change the return line of code to be "Return Format(_time, "hours and mintues"); "  instead of "Return _time;"  (assuming that the function "Format" is a function that formats mintues into the hours:minutes time format.  After you do that, everything else in the struct that relies on "_time" to be in the standard intiger minutes format will work properly.  I guess that's the jist of it...
+
+
+
+unsafe -  
+
+
+               
+
+member access modifier -  A member access modifier 
+
+constructor - Method called automatically when an object is created. The constructor initializes the new object to a valid state by setting member variable values. The constructor has the same identifier as its class.  (so it looks a lot like a function within a class whose name is the same as the name of the class.  
+
+
+               ::::::::::::::::::::::::End C# specific
+
+
+
+               :::::::::::::::::::::::: The Class
+
+A class is a segment of code that can be used to create objects??
+
+Classes may contain
+   
+   Fields
+   Properties
+   Methods
+   Class Constructor
+   
+
+
+
+
+
+
+
+               :::::::::::::::::::::::: /End The class
+
+
+Enumerator
+
+
+Class
+
+Interface
+
+Struct
+
+Enum
+
+Delegate
+
+
+
+
+
+constructors, constants, fields, methods, properties, indexers, operators, events, and nested types
+
+
+
+
+
+Object
+
+Method
+
+
+
+
+
+
+
+Handle
+
+
+
+
+Delegate
+
+Event
+
+
+
+
+Scope-  An area of code between "{}".  Code within the scope can see variables (et al) but can not see anything outside of the bounds of the scope.  
+
+
+
+
+
+signature = prototype = skeleton of function...  A device used to show how the syntax of something works.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

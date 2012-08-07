@@ -1,0 +1,20 @@
+// load a dynamically created web page, and hook the buttons on it!
+
+//  http://www.codeproject.com/KB/vb/vb_jscript_communication.aspx
+
+//  http://msdn.microsoft.com/en-US/library/system.windows.forms.webbrowser.objectforscripting.aspx
+
+//  <STRIKE THROUGH!>http://support.microsoft.com/kb/312777
+
+// <STRIKE THROUGH!!>http://blog.monstuff.com/archives/000052.html
+
+
+
+
+
+
+
+
+
+
+

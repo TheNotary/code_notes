@@ -1,0 +1,10 @@
+//// collection classes //           http://msdn.microsoft.com/en-us/library/6tc79sx1(v=VS.80).aspx
+
+
+
+
+ArrayList
+
+IList
+
+

@@ -1,0 +1,163 @@
+
+
+// /////////////////////////////////////////////////////////////////// CREATE A BLANK ACCESS DATABASE FILE
+
+// http://bytes.com/topic/c-sharp/answers/268147-create-access-database-c
+
+// Also http://support.microsoft.com/kb/317881
+
+
+//********************************      REFERENCES       *********************************
+//  ON SQL SERVER STATEMENTS
+//
+// http://www.pssuk.com/Articles/AccessDDL.htm
+//
+//
+//  ON Working in C#
+//
+// http://www.codeproject.com/KB/database/linkAccessInCSharp.aspx?msg=2166481
+//
+//
+// http://projects.ischool.washington.edu/tabrooks/545/ContentManagement/XMLintoDb.htm
+//
+//
+//****************************************************************************************
+
+
+
+
+//  set a reference to Microsoft ADO Ext 2.x in your project
+
+//  Add this to includes
+
+using ADOX;
+
+
+
+
+
+//   Put this after the form1 constructor
+
+        public class CCreateDB
+        {
+            public static bool CreateDB(string pstrDB)
+            {
+                try
+                {
+                    Catalog cat = new Catalog();
+                    string strCreateDB = "";
+
+                    strCreateDB += "Provider=Microsoft.Jet.OLEDB.4.0;";
+                    strCreateDB += "Data Source=" + pstrDB + ";";
+                    strCreateDB += "Jet OLEDB:Engine Type=5";
+                    cat.Create(strCreateDB);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+
+
+
+
+
+//   Put this in the button
+
+     
+     bool blnSuccess = CCreateDB.CreateDB(@"c:\test.mdb");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// /////////////////////////////////////////////////////////////////// OPEN OR CONNECT TO AN ACCESS DATABASE FILE
+
+
+
+//  First, set up the toolbox...  Right click the toolbox, select 'Choose Items'.  Scroll down to OleDbConnection and make sure it's checked.  If you want, you can click and drag it to the 'Data' division of the toolbox.  
+
+
+Click and drag the OleDbConnection from the toolbox onto the form.  
+
+in the properties of the connection, under connectionstring...  supply a valid connection string   //  Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=1;Data Source="TheSample.mdb";Jet OLEDB:Engine Type=5;Provider="Microsoft.Jet.OLEDB.4.0";Jet OLEDB:System database=;Jet OLEDB:SFP=False;persist security info=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Global Bulk Transactions=1
+
+
+
+
+
+
+
+
+
+// you can do that in code by doing the following...
+
+String            svlQuery          = "select * from SampleTable";
+OleDbConnection   oledbConnection1  = new OleDbConnection();
+
+OleDbDataAdapter  oledbDataAdapter1 = new OleDbDataAdapter(svlQuery, oledbConnection1); 
+
+
+
+
+
+// Then you populate a DataSet with the Access file by...
+
+DataSet           mydataset            = new DataSet();
+
+
+
+oledbConnection1.ConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=1;Data Source=file.mdb;Jet OLEDB:Engine Type=5;Provider=Microsoft.Jet.OLEDB.4.0;Jet OLEDB:System database=;Jet OLEDB:SFP=False;persist security info=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Global Bulk Transactions=1";
+
+oledbConnection1.Open();         
+
+
+oledbDataAdapter1.Fill ( mydataset, "employees");
+
+oledbConnection1.Close();
+
+
+// Now You have successfully converted an Access Database file into a DataSet
+
+
+
+
+
+
+
+'oledbConnection1 = InitiateDB()         // ????
+
+oledbConnection1.ConnectionString = "Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=1;Data Source=file.mdb;Jet OLEDB:Engine Type=5;Provider=Microsoft.Jet.OLEDB.4.0;Jet OLEDB:System database=;Jet OLEDB:SFP=False;persist security info=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Global Bulk Transactions=1";
+
+oledbConnection1.Open();
+
+
+
+oledbDataAdapter1.fill ( mydataset, "employees");
+
+
+Jet OLEDB:Global Partial Bulk Ops=2;Jet OLEDB:Registry Path=;Jet OLEDB:Database Locking Mode=1;Data Source="TheSample.mdb";Jet OLEDB:Engine Type=5;Provider="Microsoft.Jet.OLEDB.4.0";Jet OLEDB:System database=;Jet OLEDB:SFP=False;persist security info=False;Extended Properties=;Mode=Share Deny None;Jet OLEDB:Encrypt Database=False;Jet OLEDB:Create System Database=False;Jet OLEDB:Don't Copy Locale on Compact=False;Jet OLEDB:Compact Without Replica Repair=False;User ID=Admin;Jet OLEDB:Global Bulk Transactions=1
+
+
+
+
+///////////////////////////////////////////////////////// APPEND TO A DATA SET ////////////
+
+
+
+
+
+

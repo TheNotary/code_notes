@@ -1,0 +1,171 @@
+//   http://www.blackwasp.co.uk/CSharpSimpleClass.aspx      // shows how to use class files to make code easier to read
+
+//   http://www.blackwasp.co.uk/CSharpClassProperties.aspx      //  very good
+
+
+
+//  Declare the class     (put this anywhere within the namespace)
+
+        class Person
+        {
+            public int Age;                    // these are the variables that are made everytime you create an instance of this class, pretty sweet!
+            public string HairColor;
+            public string FirstName;
+            public string LastName;
+            public string Job;
+
+
+            private int m_id = -1;
+
+            public int ID
+            {
+                get
+                {
+                    return m_id;
+                }
+                set
+                {
+                    m_id = value;
+                }
+            }
+        }
+
+
+
+// Syntax
+                                                                           // this creates a new class, that inherits everything about 
+                                                                           // the class System.Windows.Forms.TreeView 
+                                                                           // Any methods, properties, etc. that are specified in your class
+                                                                           // will of course override that standard specifications that would 
+                                                                           // have otherwise been inherited
+        public class nameOfClass : System.Windows.Forms.TreeView
+        { 
+           ...
+
+
+
+
+
+
+// Initialize a new object of the type "Person"              (Put this in the button)
+
+            Person Marry = new Person();
+
+            Marry.Age = 12;
+            Marry.FirstName = "Marry";
+            Marry.HairColor = "red";
+            Marry.LastName = "Thomas";
+            Marry.Job = "Hand job servicer =0";
+            Marry.Job = "I mean Escourt";
+            Marry.Job = "Escourt";
+            
+            
+            
+            
+
+////////////////////////////////Better!
+
+
+
+
+public class CreditCardAccountPremium
+        {
+            private static uint maxCashAdvance = 300;
+            private static string CompanyName;          // see formload() I initialize this there...     
+            public string FirstName;                 //For these two items, well, they get set individually, for each new CreditCardAccountPremium created
+            private string LastName;                    //if these variables are private, then you can't access them via  this.FirstName 
+
+
+            public static uint GetMaxCashAdvance()
+            {
+                return maxCashAdvance;
+            }
+
+            public static void SetCompanyName(string Name)
+            {
+                CompanyName = Name;
+            }
+            public static string GetCompanyName()
+            {
+                return CompanyName;
+            }
+            
+
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        MessageBox.Show(CreditCardAccountPremium.GetMaxCashAdvance().ToString() + "\r\n" + 
+                            CreditCardAccountPremium.GetCompanyName());
+
+            CreditCardAccountPremium JohnsAccount = new CreditCardAccountPremium();
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////   New code illustrating classes
+
+
+
+    public class ReadOnlyTest
+    {
+       class SampleClass
+       {
+          public int x;                       // Initialize fields
+          public readonly int y = 25;                              // this makes it so that SampleClass.y is always initialized as 25 unless initialized as another value in a constructor.  
+          public readonly int z;
+
+          public SampleClass()                // this must be a class constructor.  
+          {
+             // Initialize a readonly instance field
+             z = 24;
+          }
+
+          public SampleClass(int p1, int p2, int p3)
+          {
+             x = p1;
+             y = p2;                                   // this initializes y... but overrides the value to be p2!  
+             z = p3;
+          }
+       }
+
+
+
+
+       static void Main()
+       {
+          SampleClass p1 = new SampleClass(11, 21, 32);                           // OK
+          Console.WriteLine("p1: x={0}, y={1}, z={2}", p1.x, p1.y, p1.z);
+          
+          SampleClass p2 = new SampleClass();                                     // this creates p2 with p2.y = 25 (because it's defined
+          p2.x = 55;                                                              // OK
+          Console.WriteLine("p2: x={0}, y={1}, z={2}", p2.x, p2.y, p2.z);
+       }
+    }
+    /*
+     Output:
+        p1: x=11, y=21, z=32
+        p2: x=55, y=25, z=24
+    */
+
+
+
+
+
+
+
+
+            

@@ -1,0 +1,65 @@
+http://webdesign.about.com/od/css/a/aa102102a.htm
+
+http://www.barelyfitz.com/screencast/html-training/css/positioning/
+
+change the padding or the margin attributes of your divs. 
+
+
+
+
+
+
+<html>
+<head>
+<style>
+
+#content {  /* possitioned by  TOP, Margin         */
+  top : 0px;
+  margin : 0px 0% 0 165px;
+  padding : 3px;
+  color : blue;
+  background-color: red;
+} 
+
+#leftnavigation {
+  position : absolute;
+  left : 0;
+  width : 150px;
+  margin-left : 10px;
+  margin-top : 20px;
+  color : #000000;
+  padding : 3px;
+}
+#rightnavigation {
+  position : absolute;
+  left : 80%;
+  top : 20px;
+  width : 140px;
+  padding-left : 10px;
+  z-index : 3;
+  color : #000000;
+  padding : 3px;
+} 
+
+</style>
+</head>
+<body>
+
+<div id="rightnavigation">
+Right Nav
+</div>
+
+<div id="leftnavigation">
+Left Nav
+</div>
+
+<div id="content">
+Contents of page go here
+</div>
+
+
+</body>
+</html>
+
+
+

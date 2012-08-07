@@ -1,0 +1,47 @@
+//  You gotta use static classses if you want something similar to a global variable
+//  http://www.daniweb.com/forums/thread49952.html#
+
+
+
+
+
+
+// Put this in form1 class
+          private bool selectionChanged = false; 
+
+// put this in the button
+          MessageBox.Show(this.selectionChanged.toString());
+
+
+
+
+
+
+
+
+
+
+ static class GlobalClass
+    {
+        private string m_globalVar = "";
+ 
+        public static string GlobalVar
+        {
+            get { return m_globalVar; }
+            set { m_globalVar = value; }
+        }
+ 
+ 
+    }
+
+
+
+
+
+
+
+
+
+
+
+

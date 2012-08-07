@@ -1,0 +1,91 @@
+
+
+break;   // this will get you out of the loop you're in
+
+continue;  // this will stop executing code down the line, but will start the loop at the next iteration.  It's like a break, but only for the current interation.  
+
+return;    // this gets you out of the whole function (obviously)...
+
+
+
+//   The foreach loop
+
+
+            int[] fibarray = new int[] { 0, 1, 2, 3, 5, 8, 13 };
+            
+            foreach (int i in fibarray)
+            {
+                System.Console.WriteLine(i);
+            }
+
+
+
+//   Another foreach...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    The for i Loop
+
+
+
+                                            // for eye equal   1 to 5   increment i   (at end of each pass)
+                                            // this will naturally process 1, 5 and everything between (regarding i of course...)
+
+
+            for (int i = 1; i <= 5; i++)
+            {
+                MessageBox.Show(i.ToString());
+                
+            }
+
+
+
+
+
+
+
+//     The While Loop
+
+
+
+
+
+                                           // this functions identically to the for loop above
+            int n = 1;
+            while (n <= 5)
+            {
+                MessageBox.Show("Current value of n is " + n.ToString());
+                n++;
+            }
+
+            //*/
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            

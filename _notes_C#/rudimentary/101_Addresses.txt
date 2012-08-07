@@ -1,0 +1,41 @@
+//  Sometimes it's helpful to know the address of a variable... to do low level stuff and what not...
+
+//  If Variable is a variable...
+//    &Variable is the address of the variable
+
+//    Address = &variable;     
+//    Messagebox.show(Address.ToString());    //  This will show you the location in memory where the variable is
+//    Messagebox.show(*Address.ToString());   //  This will show you the value of the variable (I think)
+
+//    *Address = 0x0001;     // this code will set the contents of the variable to 1  I.E.  variable = 0x0001;
+
+
+
+// Put this in button
+
+
+
+
+        int number;          // initialize a variable
+
+        unsafe                 // You can only do this cool stuff in 'unsafe' code
+        {
+
+// Assign the address of number to a pointer:
+            int* p = &number;                   // p is the address of a variable now
+
+
+
+
+// This puts the number 0xffff  into the address of 'p'
+            *p = 0xffff;
+
+
+
+            Messagebox.show("Here's the Address of the variable " + Address.ToString());
+            Messagebox.show("Here's the value of the variable" + *Address.ToString());
+
+
+        {
+
+

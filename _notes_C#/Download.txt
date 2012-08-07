@@ -1,0 +1,18 @@
+//    downloads a file
+
+private void button1_Click(object sender, EventArgs e) 
+{ 
+   Uri url = new Uri(textBox1.Text); 
+   System.Net.WebClient ee = new System.Net.WebClient(); 
+   
+   ee.DownloadFileCompleted += new AsyncCompletedEventHandler(finishedjob); 
+   
+   string sav = System.IO.Path.GetFullPath(textBox2.Text) + "\\" + System.IO.Path.GetFileName(textBox1.Text); 
+   
+   ee.DownloadFileAsync(url, sav); 
+} 
+
+void finishedjob(object e,AsyncCompletedEventArgs a) 
+{ 
+   MessageBox.Show("Downloading completed."); 
+}

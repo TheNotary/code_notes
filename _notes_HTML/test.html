@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+
+  <title>My first styled page</title>
+  
+  <style type="text/css">
+		/* Undo some styles from the master stylesheet */
+		.checklist li { background: #FF8B8B; color: #7C2D00; padding-left: 0; }
+		
+		/* CSS for checklists */
+		.checklist {
+			border: 2px solid #000000;
+			font-family: Georgia, "Times New Roman", Times, serif;
+			list-style: none;
+
+		}
+		.checklist, .checklist li { margin: 0; padding: 0; }
+		.checklist label { display: block; padding: 0 0.2em 0 25px; text-indent: -25px; }
+		.checklist label:hover, .checklist label.hover { background: #FF5454; color: #523100; }
+		* html .checklist label { height: 1%; }
+	</style>
+	
+	<!-- JavaScript -->
+	<script type="text/javascript">
+		/*-----------------------------------------------------------+
+		 | addLoadEvent: Add event handler to body when window loads |
+		 +-----------------------------------------------------------*/
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			
+			if (typeof window.onload != "function") {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		
+		/*------------------------------------+
+		 | Functions to run when window loads |
+		 +------------------------------------*/
+		addLoadEvent(function () {
+			initChecklist();
+		});
+		
+		/*----------------------------------------------------------+
+		 | initChecklist: Add :hover functionality on labels for IE |
+		 +----------------------------------------------------------*/
+		function initChecklist() {
+			if (document.all && document.getElementById) {
+				// Get all unordered lists
+				var lists = document.getElementsByTagName("ul");
+				
+				for (i = 0; i < lists.length; i++) {
+					var theList = lists[i];
+					
+					// Only work with those having the class "checklist"
+					if (theList.className.indexOf("checklist") > -1) {
+						var labels = theList.getElementsByTagName("label");
+						
+						// Assign event handlers to labels within
+						for (var j = 0; j < labels.length; j++) {
+							var theLabel = labels[j];
+							theLabel.onmouseover = function() { this.className += " hover"; };
+							theLabel.onmouseout = function() { this.className = this.className.replace(" hover", ""); };
+						}
+					}
+				}
+			}
+		}
+	</script>
+  
+
+
+<body bgcolor=#D2E7F4>
+
+
+<form action="#" method="get">
+	    <ul class="checklist">
+	        <li><label for="o1"><input id="o1" name="o1" type="radio" /> Aenean malesuada ante eget tellus</label></li>
+	        <li><label for="o2"><input id="o2" name="o1" type="radio" /> In posuere augue id velit</label></li>
+	        <li><label for="o3"><input id="o3" name="o1" type="radio" /> Nullam a dui ac augue adipiscing sodales</label></li>
+	        <li><label for="o4"><input id="o4" name="o4" type="checkbox" /> Vivamus consectetuer ante eget urna</label></li>
+	        <li><label for="o5"><input id="o5" name="o5" type="checkbox" /> Aliquam id felis cursus purus tristique condimentum</label></li>
+	        <li><label for="o6"><input id="o6" name="o6" type="checkbox" /> Suspendisse posuere lectus vitae velit consequat volutpat</label></li>
+	        <li><label for="o7"><input id="o7" name="o7" type="checkbox" /> Fusce condimentum nulla et tortor.</label></li>
+	        <li><label for="o8"><input id="o8" name="o8" type="checkbox" /> Proin consequat faucibus mi</label></li>
+	        <li><label for="o9"><input id="o9" name="o9" type="checkbox" /> Etiam a lectus quis massa viverra laoreet</label></li>
+	        <li><label for="o10"><input id="o10" name="o10" type="checkbox" /> Pellentesque gravida lorem vel odio</label></li>
+	    </ul>
+	</form>
+</body>
+</html>
+

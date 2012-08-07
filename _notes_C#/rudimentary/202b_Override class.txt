@@ -1,0 +1,45 @@
+
+
+TOC:
+  override
+  protected
+
+
+
+
+
+
+::override
+You can 'override' a prebuilt class's method (only if it's protected??).  
+This means you use a prebuilt class, but make subtle modifications to suit your needs.  
+In the example you change the .ToString() method to output a string in a specific syntax instead
+of what it would otherwise have done (ie it wouldn't have added that colon).
+
+
+public override string ToString()
+            {
+                return First + " " + Last + ":" + ID;
+            }
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

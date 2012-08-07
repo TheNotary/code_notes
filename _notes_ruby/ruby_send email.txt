@@ -1,0 +1,128 @@
+msgstr = <<END_OF_MESSAGE
+From: Your Name <your@mail.address>
+To: Destination Address <someone@example.com>
+Subject: test message
+Date: Sat, 23 Jun 2001 16:26:43 +0900
+Message-Id: <unique.message.id.string@example.com>
+
+This is a test message.
+END_OF_MESSAGE
+
+require 'net/smtp'
+Net::SMTP.start('your.smtp.server', 25) do |smtp|
+  smtp.send_message msgstr,
+                    'your@mail.address',
+                    'his_address@example.com'
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+msgstr = <<END_OF_MESSAGE
+From: My Name <wastyx@gmail.com>
+To: Destination Address <wastyx@gmail.com>
+Subject: test message
+Date: Sat, 23 Jun 2001 16:26:43 +0900
+Message-Id: <unique.message.id.string@example.com>
+
+This is a test message.
+END_OF_MESSAGE
+
+require 'rubygems'
+require 'net/smtp'
+require 'net/smtp_tls.rb'
+#eval File.read("smtp_tls.rb")
+Net::SMTP.enable_tls() 
+
+Net::SMTP.start('smtp.gmail.com', 587, 'gmail.com') do |smtp|
+  smtp.send_message msgstr, 'wastyx@gmail.com', 'wastyx@gmail.com'    
+end
+
+
+
+
+
+
+
+=== First working method
+
+
+
+
+require 'net/smtp'
+
+YourDomain = 'smtp.gmail.com'
+YourAccountName = 'REMOVED@gmail.com'
+YourPassword = 'REMOVED'
+
+FromAddress = 'REMOVED@gmail.com'
+ToAddress = 'REMOVED@gmail.com'
+
+
+
+@msg = "Subject: Hi There!\nThis is the body.  Tested on ruby 1.8.7"
+smtp = Net::SMTP.new 'smtp.gmail.com', 587
+smtp.enable_starttls
+smtp.start(YourDomain, YourAccountName, YourPassword, :login) do
+  smtp.send_message(@msg, FromAddress, ToAddress)
+end
+
+
+==========================
+
+
+=== Working method with cool message creation
+
+require 'net/smtp'
+
+YourDomain = 'smtp.gmail.com'
+YourAccountName = 'REMOVED@gmail.com'
+YourPassword = 'REMOVED'
+
+FromAddress = 'REMOVED@gmail.com'
+ToAddress = 'REMOVED@gmail.com'
+
+
+
+msgstr = <<END_OF_MESSAGE
+From: My Name <REMOVED@gmail.com>
+To: Destination Address <REMOVED@gmail.com>
+Subject: test message
+
+This is a test messages body, woot!
+END_OF_MESSAGE
+
+
+smtp = Net::SMTP.new 'smtp.gmail.com', 587
+smtp.enable_starttls
+smtp.start(YourDomain, YourAccountName, YourPassword) do 
+  smtp.send_message(msgstr, FromAddress, ToAddress)
+end  # smtp.finish
+
+
+
+
+==============================================
+
+
+
+
+
+
+
+
+
+
+
+

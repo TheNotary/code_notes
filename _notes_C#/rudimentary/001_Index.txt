@@ -1,0 +1,33 @@
+
+099:    Using Visual Studio's Interface to do stuff (like adding a new class, or a new database or what ever)
+
+
+
+100:    Things involving variables and data formats
+
+
+200:    Things involving Classes and structures
+
+
+
+300:    Things involving Program flow changes
+
+
+
+
+
+400:    Things involving external .DLL and .EXE files, and also things involving using ASM code in C#   
+
+
+
+600:    Dry coding practices (consists links to other text files probably)
+
+
+
+700:     Do mega-super-advanced shit
+
+
+
+800:     Graphics and UI related
+
+

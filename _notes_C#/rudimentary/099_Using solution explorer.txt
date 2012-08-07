@@ -1,0 +1,115 @@
+
+TOC
+1) Custom Controls
+2) Class Files
+3) 
+
+
+
+
+
+
+
+
+
+//// CUSTOM CONTROLS //       http://dhavalupadhyaya.wordpress.com/2008/07/20/how-to-add-custom-control-in-visual-studio-toolbox/
+
+MY NOTE:  To get a component to show up in the toolbox (when the component is included in another project within the solution...  You must rightclick on the project that contains the control (in solution explorer) and select "rebuild"
+
+
+
+
+
+
+
+
+
+
+
+//// CLASS FILES //       http://www.blackwasp.co.uk/CSharpSimpleClass.aspx                http://www.youtube.com/watch?v=R10YzKGuNZo
+
+When you create a new windows form application in visual studio 2008, you will see in the upper right hand corner of the screen the solution explorer.  This window contains all the files related to your solution.  
+
+Project node
+    Within a single solution you may have many of these project nodes (i think, maybe, somehow).  
+    
+    The key nodes are: 
+       -Form1.cs
+       -Program.cs
+
+Form1.cs
+    If you double click Form1.cs you will pull up the designer view of your project.  This view lets you visually drag and drop buttons and other controls onto the form using the toolbox (found on the left side of the screen, or if it's missing, click view on the menu bar and select Toolbox to display it).  You can double click controls that you've placed onto your form to pull up the code view of Form1.cs (it will also auto generate the default event code for the control that you've clicked, which is extremely handy you will see).  You can also pull up the CODE VIEW of Form1.cs by right clicking on it in the solution explorer and selecting "View Code."
+
+Program.cs
+    If you double click Program.cs it will pull up the file's code view.  The code in this file is the very first stuff to be run.  By default, all that this code does is... essentially do this line of code...
+
+Application.Run(new Form1());
+
+    That "runs" the Form1.cs program.  This is a special...  You can only have one of them going at a time...  it has to do with threads...  DOn't think that this code is how you display a new window because it's not... it's like... how you initialize your form program.  
+
+
+
+
+Creating a new class ///////////////////////////////////  http://www.youtube.com/watch?v=3hfmxiDVSX8
+    Right click on your project in the solution explorer and select "Add -> Add Class".  Keep it named Class1.  The code for your class is now displayed... the way it works is...
+    
+    
+    class Class1
+    {
+            //  PUT YOUR CODE IN HERE
+    }    
+
+
+    For now, put the following code in there...
+    
+    
+        private readonly int minutes;
+
+        public Class1(int hh, int mm) 
+        {
+            this.minutes = 60 * hh + mm;
+        }
+
+        public override String ToString() 
+        {
+            return minutes.ToString();
+        }    
+
+
+      Ok, so now you've got a class.  Your program should compile fine at this point, but we don't use the class at all.  To use the class, go into your form1.cs code and add a line   "using Class1"... I'm giving up and using the tut below...
+...  http://www.blackwasp.co.uk/CSharpSimpleClass.aspx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

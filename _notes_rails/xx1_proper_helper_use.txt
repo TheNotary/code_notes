@@ -1,0 +1,31 @@
+Helpers are just methods.  It's tricky because methods look so similar to variables in ruby, but other than that, helpers are amazingly cool to use.  
+
+To use a helper, simply define a method in a helper module
+
+(app/helpers/users_helper.rb)
+module UsersHelper
+  def my_helper(string)
+    return "The string was: " + string
+  end
+end
+
+
+With this new helper method defined in the Users module, you can now use it in the user views:
+
+(app/views/users/show.html.erb)
+<h1>
+  <%= my_helper "sample string" %>
+</h1>
+
+When the show action is activated, it will translate into
+
+<h1>
+  The string was: sample string
+</h1>
+
+
+Nifty, huh?
+
+
+
+

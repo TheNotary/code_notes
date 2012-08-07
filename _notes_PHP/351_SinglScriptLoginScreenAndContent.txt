@@ -1,0 +1,114 @@
+::Two Pages at Singl Address
+
+
+One way to handle PHP updates is by have the PHP script navigate to itself, but have parameters which change the flow of execution.  
+
+
+User's Procedure:
+  1)  Navigate to singleScript.php
+  2)  Fill in desired data
+  3)  Click a button which does something like...  <a href="singleScript.php?page=second"> click </a>
+  4)  Vwuala!  THe user will see a second page, even though their browser is only navigating to the same page.  
+  
+
+To get this functionality is pretty simple and straight forward.  The first example shows a single form by default, and then after the user clicks to navigate, a table is drawn in addition to the original content.  
+
+               first  |  second  (page load)
+Form loads      yes        yes
+Extra Content   no    |    yes
+
+
+
+
+(.php)
+[code]
+
+
+
+[/code]
+
+
+So you can se that with this approach you basically design an html page, and then tack on some PHP to the very top.  
+
+
+Here's similar implimentation.  
+ 
+
+               first  |  second  (page load)
+Form loads      yes        no
+Extra Content   no    |    yes
+
+
+
+(.php)
+[code]
+
+
+
+[/code]
+
+
+
+With this pattern, we put the html form inside the php code, and with this, we can pick and choose what html code is generated.  
+
+
+
+
+
+For clairity's sake, you will be putting different html content in different PHP scripts and then call these scripts when you need to use them.  
+
+The below example demonstrates this:
+
+
+
+
+
+
+(singleAddress.php)
+[code]
+
+<?php
+  
+?>
+
+
+
+[/code]
+
+
+(restricted/A.php)
+[code]
+
+
+
+[/code]
+
+
+
+
+(restricted/B.php)
+[code]
+
+
+
+[/code]
+
+
+
+
+
+
+I named those two php pages "restricted/A.php" and "restricted/B.php" because you will not need your users to have direct access to the scripts.  You only need your web server to have read access to them.  
+It's just a matter of making your page look less sloppy.  
+If you really want to, you can keep the permissions on the restricted folder to allow users to navigate to them, but they might find it confusing (if they're able to see your directory hierarchy that is).  
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,73 @@
+
+
+CONCEPT OF "SERVER SIDE SCRIPTS"
+
+PHP is a language that you "RUN" by creating .PHP files and place them on a web server (where users will browse to them and see the fruits of your labor).  
+Obviously, the webserver needs to have a PHP engine installed so that when a browser navigates to the page, the PHP script will be able to run.  It should be noted that allmost all webhosts provide PHP by default.  
+
+The main idea of PHP is to have a script dynamically generate HTML web content unique to the individual client's desires.  For example, if you just put a standard .HTML on a webserver, you can only show 'static' content, that is, content that does not change from user to user.  
+
+E.G.
+
+(boring.html)
+[code]
+
+<html>
+  <body>
+    <p> hello boring .HTML world... </p>
+  </body>
+<html>
+
+[/code]
+
+
+Pretty boring, right?  Now let's show a dynamic web page that is written in php.  
+
+
+(exciting.php)
+
+[code]
+
+<?php
+  $ip = $_SERVER['REMOTE_ADDR'];
+
+  echo "hello exciting world of PHP,";
+  echo "and your ip is...";
+  echo $ip;
+?>
+
+
+When a client browses to exciting.php, their ip address will be stored in a variable called $ip, and it will then be shown on the web page they navigated to.  
+
+They call the PHP language a SERVER SIDE SCRIPT because:  
+1)  It is a script:  source Code that is directly executed instead of having to be compiled to a binary format, and
+2)  It runs on the server; A client connects to the webserver hosting your script, and the server executes the code, rather than the client who did the browsing.  
+
+And of course, they refer to PHP as being DYNAMIC simply because it can produce web conent that changes based on the programmers desires.  
+
+
+Table of (dis)related languages:
+
+                       PHP   | ASP |  JavaScript  |  HTML  |  C++  
+Server/Client (S/c)      S      S          c          S        c
+Script/Binary (S/b)      S      S          S         *S        b
+Static/Dynamic (s/D)     D      D          D          S        n/a
+Web oriented/ Not (W/n)  W      W          W          W        n
+                                                                          *HTML pages aren't exactly "Run" in the same way as other languages; HTML pages can't perform calculations
+
+Based on that chart, you will find that PHP is: 
+- most similar to ASP,
+- Kinda like Javascript, and
+- really nothing like c++
+
+As an aside, it is quite possible to interact with C++ applications using PHP (through a means known as CGI) but that's a complicated thing in and of itself and won't be discussed further.  
+
+
+
+
+
+WHEN IS PHP NEEDED?
+
+You will need PHP if you want to develop web sites that are "cool" and allow your users to interact directly with persistant data (think "save button").  If you like programming, but dislike HTML design, PHP just might be able to get you interested in it more.  
+The web is a BIG market place, and knowing PHP will help you vastly in euntraprenuership, and also help you get a job.  
+

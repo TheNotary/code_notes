@@ -1,0 +1,107 @@
+http://www.phpied.com/3-ways-to-define-a-javascript-class/
+
+
+
+
+::::: Define a Class
+
+
+function Apple (type) {
+    this.type = type;
+    this.color = "red";
+    this.getInfo = function() {
+        return this.color + ' ' + this.type + ' apple';
+    };
+}
+
+
+var a = new Apple("Juicy");
+a.getInfo();
+
+
+
+::::: Define a nameless class on the fly
+
+
+var apple = {
+    type: "macintosh",
+    color: "red",
+    getInfo: function () {
+        return this.color + ' ' + this.type + ' apple';
+    }
+}
+
+
+
+
+
+
+
+
+:::::: Define a Class with Lots of instance methods...
+
+function Apple(type){
+  this.type = type;
+  this.color = "red";
+  this.getInfo = Apple.getInfo;
+}
+
+Apple.getInfo = function(){
+  return this.color + ' ' + this.type + ' apple';
+}
+
+
+
+
+
+
+:::::: Define a Class with Lots of Static Methods...
+
+
+function Apple(){}
+
+
+Apple.getInfo = function(){
+  return "here's a static method.  Go ahead and fill up a class.js with methods like this one.";
+}
+
+
+
+
+
+
+
+
+<<<------------------------ Class Inheritance ---------------------->>>
+
+http://www.crockford.com/javascript/inheritance.html
+
+
+
+
+:::::: Define an abstract class, and then a concrete class which inherits from the abstract class
+
+
+
+function AbstractApple(type, color){
+  this.type = type;
+  this.color = color;
+}
+
+
+AbstractApple.prototype.getInfo = function(){
+  return this.color + ' ' + this.type + ' apple';
+}
+
+
+function Apple(type, color){
+  AbstractApple.call(this, type, color);
+}
+
+Apple.prototype = new AbstractApple();
+
+var a = new Apple("mac", "red");
+
+a.getInfo();
+
+

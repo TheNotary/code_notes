@@ -1,0 +1,15 @@
+
+
+
+To have the object thingy...  "musicCollectionDataSet"  you need to:
+1. open your project.
+2. Click and drag the Access Database file into the project (in the solution explorer window).
+3. Select the tables you want to use (select all tables)
+4. And then click OK a bunch if needed.
+
+Now you can refer to musicCollectionDataSet.add() or what ever you want with that object.  
+
+
+
+
+

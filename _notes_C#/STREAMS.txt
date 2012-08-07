@@ -1,0 +1,90 @@
+Here's the stream objects that derive from Stream...   #using System.IO
+
+FileStream          // This stream involves writing to the hard disk
+MemoryStream        // This is a stream just like FileStream, but you don't need to write to a hard disk, instead, you write to memory.  
+IsolatedStorageFileStream
+
+
+
+
+////  WithOut using the StreamWriter and StreamReader //      
+
+using System.IO;
+...
+string s = "Wahoo!";
+int n = 452;
+using( Stream stream = new MemoryStream() ) {
+                                                // Write to the stream
+  byte[] bytes1 = UnicodeEncoding.Unicode.GetBytes(s);
+  byte[] bytes2 = BitConverter.GetBytes(n);
+  stream.Write(bytes1, 0, bytes1.Length);
+  stream.Write(bytes2, 0, bytes2.Length);
+
+                                                // Reset the stream to the beginning
+  stream.Seek(0, SeekOrigin.Begin);
+
+                                                   // Read from the stream
+  byte[] bytes3 = new byte[stream.Length - 4];
+  byte[] bytes4 = new byte[4];
+  stream.Read(bytes3, 0, bytes3.Length);
+  stream.Read(bytes4, 0, bytes4.Length);
+                                                   // Do something with the data
+  MessageBox.Show(UnicodeEncoding.Unicode.GetString(bytes3) + " " +
+    BitConverter.ToInt32(bytes4, 0));
+}
+
+
+////  with the StreamWriter and StreamReader //      
+
+
+                                                  // Write to the stream
+  StreamWriter writer = new StreamWriter(stream);
+  writer.WriteLine(s);
+  writer.WriteLine(n);  // auto converts the int to a string
+  writer.Flush();        // Flush the buffer
+
+                                                  // Reset the stream to the beginning
+  stream.Seek(0, SeekOrigin.Begin);
+
+                                                  // Read from the stream
+  StreamReader reader = new StreamReader(stream);
+  string s2 = reader.ReadLine();
+  int n2 = int.Parse(reader.ReadLine()); // Converts the string in the stream to an int
+
+                                                  // Do something with the data
+  MessageBox.Show(s2 + " " + n2);
+
+
+
+
+////  with the BinaryWriter and BinaryReader //     
+
+
+
+                                                  // Write to the stream
+  BinaryWriter writer = new BinaryWriter(stream);
+  writer.Write(s);
+  writer.Write(n);
+  writer.Flush();          // Flush the buffer
+
+                                                    // Reset the stream to the beginning
+  stream.Seek(0, SeekOrigin.Begin);
+
+                                                    // Read from the stream
+  BinaryReader reader = new BinaryReader(stream);
+  string s2 = reader.ReadString();
+  int n2 = reader.ReadInt32();
+
+                                                    // Do something with the data
+  MessageBox.Show(s2 + " " + n2);
+
+
+
+
+
+
+
+
+
+
+

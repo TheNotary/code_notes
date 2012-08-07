@@ -1,0 +1,41 @@
+// http://msdn.microsoft.com/en-us/library/ah19swz4(VS.71).aspx
+
+//
+
+
+
+
+
+public struct Point 
+{
+   public int x, y;
+
+   public Point(int p1, int p2)    // constructor can be used to innitialize the object
+   {
+      x = p1;
+      y = p2;    
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

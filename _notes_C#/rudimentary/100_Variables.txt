@@ -1,0 +1,87 @@
+
+THE COOLEST VARIABLE IS var!!!!
+var is like object; it's vague, and can change what it really is dynamically.  BUT it is for specifically setting data types.  It basically saves on typing.  If you use var with a DataSet, you're intelesense will know that that var is a DataSet, and not a generic object of unknown specificity.    
+
+
+
+
+
+http://msdn.microsoft.com/en-us/library/9kkx3h3c(VS.71).aspx
+
+        /* ***  Special variables  *** */
+
+
+            object ThisIsImportant;                // You can assign values of ANY type to this variable.  
+            
+            ArrayList var2 = new ArrayList();      // this ArrayList var has a size which increases dynamically as needed
+
+
+
+
+
+            /*
+             * 
+             * Here's variables, arrays, and using methods 
+             * 
+             * 
+             * */
+//  http://msdn.microsoft.com/en-us/library/e6w8fe1b(VS.71).aspx
+            const int DaysInYear = 365;                       // Declare a constant which can't change throughout the program.  
+            
+
+
+            int32 results;                             // This is how you declare variables, you can declare and set at the same time!
+            
+            results = 4;
+            string var2 = results.ToString();        // ToString is a method, not a property.  so results.ToString()  NOT results.ToString   ... methods are just functions that can either return a variable of some type, or simply perform an operation (and not return anything)
+            
+            results = Convert.ToInt32(var2);           // this is how you cast a string to an int
+            
+            
+            
+            decimal numberthing;
+            numberthing = 23.79M;                   //  this is how you input the decimal I think... with that M at the end
+            
+            
+            
+            int64 sixtyfour;
+            sixtyfour = 0x23332333;  // haven't run this code...
+            results = (int32)sixtyfour;                     //this will cast it to a int32 value
+
+            Person Marry = new Person();             // Declares Marry  as a "Person" object
+
+
+            /*                // NOTE THAT THESE 3 ARRAYS NEED TO BE "instantiated" BEFORE THEY CAN BE USED... SO DON'T USE THIS METHOD!!!  int[] tablex = new int[4];  would declare and instantiate the array
+            int[] tablex;     // not int table[];     Here's an Array of any size             http://msdn.microsoft.com/en-us/library/aa288453(VS.71).aspx
+            string[,] namesx;               //here's a multi-dimensional array
+            byte[][] scoresx; //  here's an array of arrays (jagged)
+            */
+
+
+
+            int[] numberz = new int[5] { 1, 2, 3, 4, 5 };   // here's an array of ints being declaired AND simultaniusly filled.  
+            string[] namezers = new string[] { "Matt", "Joanne", "Robert" };  // here's an array getting filled, and it's size is ommitted because it uses the parameters give to determine a size of 3!
+            
+
+            //names =;
+                MessageBox.Show(numberz.Length.ToString() + "  Contents: " + numberz[1]);    // note that .length counts the number of slots, starting with 1
+
+            //names[0, 0] = "hi"; 
+
+            string name1;
+            //    name1 = "hahaha";
+            //    MessageBox.Show(name1);
+
+            string[,] names = new string[1,1];                // this initializes the array 'names' which has already been declaired.  
+                                                              // The size of the array must be specified before you can initialize and use the array 
+            names[0,0] = "Dummy string";
+            //MessageBox.Show(names[0, 0]);
+
+            //   names[0,0] = "dummy string";
+            
+            
+            
+            
+            
+            
+            

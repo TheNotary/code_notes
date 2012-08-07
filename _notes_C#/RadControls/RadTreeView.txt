@@ -1,0 +1,43 @@
+//  http://www.telerik.com/help/winforms/telerik.wincontrols.ui-telerik.wincontrols.ui.radtreeview.html
+
+
+
+
+
+
+
+
+
+
+
+//    Binding to XML Data
+
+
+
+
+DataSet tocDataSet = new DataSet("Toc");               // create the dataset to be bound
+tocDataSet.ReadXml("toc.xml");                         // Load the dataset with the XML file information
+                                                       // DataSets work like...
+                                                    <dataSetName>
+                                                       <tableName>
+                                                          <Column1Name> Value </Column1Name>
+                                                          <Column2Name> Value </Column2Name>
+                                                       </tableName>
+                                                    </dataSetName>
+
+
+                                               // Configure the radTreeView to...      
+this.radTreeView1.DataMember = "Node";                 // to read all <node> elements...
+this.radTreeView1.DisplayMember = "Title";             // use <Title>Contents</Title>  to display the tree node names
+this.radTreeView1.ValueMember = "id";                  // Sets the value of the node (not displayed... should be an XML address)
+                                                       // ... Later on, when the node is selected, the value will be gotten, and then the XML data string will 
+                                                       // Be parsed for <definition>, <Explanation>, etc...  
+                                                       // Then the list boxes will be populated with this data
+
+
+this.radTreeView1.ParentIDMember = "parentId";
+this.radTreeView1.DataSource = tocDataSet;
+
+
+
+

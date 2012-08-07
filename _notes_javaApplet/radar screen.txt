@@ -1,0 +1,122 @@
+http://www.sap-img.com/java/java-applet-simulating-a-typical-radar-screen.htm
+
+//File Name: Radar.java
+//Author: Saad Ayub
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.*;
+class Flash extends Thread{
+   private DrawA dA;
+   private int x;
+   private int xCor[];
+   private int yCor[];
+   private int i;
+   private int dir;
+   private Image im;
+   private Graphics buff;
+   public Flash(DrawA dA, Image im, Graphics buff){
+      this.dA = dA;
+      this.im = im;
+      this.buff = buff;
+      xCor = new int[451];
+      yCor = new int[451];
+      dir = 10;
+   }
+   public void run(){
+      for(x = 75, i = 0; x <= 525; x++, i++){
+         xCor[i] = x - 300;
+      }
+      for(i = 0; i <= 450; i++){
+         yCor[i] = (int)Math.sqrt(62500 - (xCor[i] * xCor[i]));
+         yCor[i] = 300 - yCor[i];
+      }
+
+      for(x = 0; x <= 450; x++){
+         xCor[x]+=300;
+      }
+
+      i = 0;
+      while(true){
+         try{
+            Thread.sleep(35);
+         }
+         catch(Exception e){}
+ 
+
+         dA.repaint();
+         i += dir;
+
+         if(i < 0 || i > 450){
+           dir = -dir;
+            i += dir;
+         }
+      }
+   }
+   public void draw(Graphics g){
+      int green = 255;
+      buff.setColor(Color.black);
+      buff.fillRect(0, 0, 600, 330);
+      buff.setColor(new Color(0, 70, 0));
+      buff.fillArc(50, 50, 500, 500, 25, 130);
+      buff.setColor(Color.green);
+      if(i > 450)
+         return;
+      if(xCor[i] != 0 && yCor[i] != 0)
+         buff.drawLine(xCor[i], yCor[i], 300, 300);
+      if(dir > 0){
+         for(int j = i; j > (i - 100); j--){
+            if(j >= 0 && j <= 450){
+               green -= 2;
+               buff.setColor(new Color(0, green, 0));
+               buff.drawLine(xCor[j], yCor[j], 300, 300);
+            }
+         }
+      }
+      else{
+         for(int j = i; j < (i + 100); j++){
+            if(j >= 0 && j <= 450){
+               green -= 2;
+               buff.setColor(new Color(0, green, 0));
+               buff.drawLine(xCor[j], yCor[j], 300, 300);
+            }
+         }
+      }
+      buff.setColor(Color.green);
+      buff.drawArc(112, 112, 375, 375, 25, 130);
+      buff.drawArc(174, 174, 250, 250, 25, 130);
+      buff.drawArc(238, 238, 125, 125, 25, 130);
+
+      buff.drawLine(300, 300, 300, 50);
+      g.drawImage(im, 0, 0, null);
+   }
+}
+class DrawA extends Panel{
+   private Flash fl;
+   private Image im;
+   private Graphics buff;
+   public DrawA(Image im){
+      this.im = im;
+      buff = im.getGraphics();
+      fl = new Flash(this, im, buff);
+      fl.start();
+      setBackground(Color.black);
+   }
+   public void paint(Graphics g){
+      fl.draw(g);
+   }
+   public void update(Graphics g){
+      paint(g);
+   }
+}
+public class Radar extends Applet{
+   public DrawA dA;
+   public void init(){
+      dA = new DrawA(createImage(600, 330));
+      setLayout(new BorderLayout());
+      add(dA, BorderLayout.CENTER);
+   }
+   public void stop(){
+      destroy();
+   }
+} 

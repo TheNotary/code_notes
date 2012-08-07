@@ -1,0 +1,55 @@
+//  http://www.akadia.com/services/dotnet_delegates_and_events.html
+
+
+// A delegate will allow us to specify what the function we'll be calling looks like without having to specify which function to call.
+
+
+
+
+// Put this in the namespace host
+ 
+    public delegate void SimpleDelegate();                  // Declaration of a delegate
+
+
+
+
+
+// Have a random function somewhere in the namespace
+
+        public static void MyFunc()                           // This is just a random function, it's attached to the delegate later on
+        {
+            Console.WriteLine("I was called by delegate ...");
+        }
+
+
+
+
+
+// Put this in button
+
+            // Instantiation of the delegate
+            SimpleDelegate simpleDelegate = new SimpleDelegate(MyFunc);      // Point it to any function you want (you can vary your function calls!)
+
+            // Invocation of delegate
+            simpleDelegate();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

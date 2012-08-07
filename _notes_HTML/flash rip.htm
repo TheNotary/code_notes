@@ -1,0 +1,206 @@
+﻿
+
+<style type="text/css">
+
+
+
+
+#word-area #flashcard { 
+background-attachment: scroll;
+background-color: #ffffff;
+background-image: url("http://a.quizlet.com/i/flashcardbg_big.gif");
+background-position: 0% 0%;
+background-repeat: repeat-x;
+border-bottom-color: #cccccc;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+border-left-color: #cccccc;
+border-left-style: solid;
+border-left-width: 1px;
+border-right-color: #cccccc;
+border-right-style: solid;
+border-right-width: 1px;
+border-top-color: #cccccc;
+border-top-style: solid;
+border-top-width: 1px;
+padding-bottom: 0px !important;
+padding-left: 8px !important;
+padding-right: 8px !important;
+padding-top: 0px !important;
+}
+
+#word-area td { 
+border-bottom-color: currentColor;
+border-bottom-style: none;
+border-bottom-width: 0px;
+border-left-color: currentColor;
+border-left-style: none;
+border-left-width: 0px;
+border-right-color: currentColor;
+border-right-style: none;
+border-right-width: 0px;
+border-top-color: currentColor;
+border-top-style: none;
+border-top-width: 0px;
+padding-bottom: 0px;
+padding-left: 0px;
+padding-right: 0px;
+padding-top: 0px;
+text-align: center;
+}
+
+table td { 
+border-bottom-color: #dddddd;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+border-left-color: #dddddd;
+border-left-style: solid;
+border-left-width: 0px;
+border-right-color: #dddddd;
+border-right-style: solid;
+border-right-width: 1px;
+border-top-color: #dddddd;
+border-top-style: solid;
+border-top-width: 0px;
+padding-bottom: 5px;
+padding-left: 7px;
+padding-right: 7px;
+padding-top: 5px;
+text-align: left;
+}
+
+* { 
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+padding-bottom: 0px;
+padding-left: 0px;
+padding-right: 0px;
+padding-top: 0px;
+}
+
+td { 
+display: table-cell;
+padding-bottom: 1px;
+padding-left: 1px;
+padding-right: 1px;
+padding-top: 1px;
+vertical-align: inherit;
+}
+
+
+
+#completed { 
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+text-align: left;
+width: auto;
+}
+
+html .tagcloud div { 
+border-bottom-color: #cccccc;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+border-left-color: #cccccc;
+border-left-style: solid;
+border-left-width: 1px;
+border-right-color: #cccccc;
+border-right-style: solid;
+border-right-width: 1px;
+border-top-color: #cccccc;
+border-top-style: solid;
+border-top-width: 1px;
+height: 7px;
+position: relative;
+width: 80%;
+}
+
+
+</style>
+<link rel='image_src' href='http://a.quizlet.com/i/square_bigger.jpg' />
+
+
+
+
+
+
+
+
+
+
+
+<table id="word-area" class="noBorder" cellspacing="0" width="600px">
+	<tbody>
+		<tr>
+			<td id="flashcard-left-arr">
+				<input type="submit" value="←" id="previous-button" disabled="disabled" class=""/>
+			</td>
+			<td id="flashcard">
+				<div id="div-flashcard">
+					<div id="setting-icons">
+						<a href="#" id="toggle-full-screen" class="familiarize-contract" title="Back to Normal Size"/>
+						<a href="#" id="shuffle" title="Shuffle Order of Terms"/>
+					</div>
+					
+					<b id="familiarize-checkboxes">
+
+						<label for="term-first" id="term-first-label" class="dnone">
+							<input type="checkbox" checked="checked" id="term-first"/>
+							Term First     
+						</label>
+
+						<label for="show-both">
+							<input type="checkbox" id="show-both" checked="checked"/>
+							Both Sides 
+						</label>
+					</b>
+
+					<table cellspacing="0">
+						<tbody>
+						<tr>
+						<td id="outer-word" style="height: 340px">
+							<div style="font-size: 32px" class="hr"> FLASH CARD TERM</div>
+							
+<div style="font-size: 16px; text-align:left">
+FLASH CARD DEFINITION
+<br />
+public class myCollection : System.Collections.CollectionBase
+<br/>
+{
+<br/>
+
+...                       ...
+
+<br/>
+}
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+
+
+<i id="click-to-flip" style="visibility: hidden">Click to flip</i>
+</div>
+</td>
+<td id="flashcard-right-arr">
+<input type="submit" value="→" id="next-button" class=""/>
+</td>
+</tr>
+<tr>
+<td/>
+
+<td class="tagcloud">
+<div id="completed">
+<span style="width: 50%;background-color:blue"></span>
+</div>
+</td>
+
+<td id="completed-counter">1/2</td>
+
+</tr>
+</tbody>
+</table>

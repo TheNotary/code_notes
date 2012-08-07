@@ -1,0 +1,530 @@
+Here's a log of what I did to make the site
+
+
+
+
+######### Initialization ###################################################
+
+$  rails new xpd3 -d mysql
+
+
+
+(Gemfile)
+source 'http://rubygems.org'
+
+gem 'rails', '3.0.7'
+
+gem 'mysql2', '0.2.7'
+
+
+# install
+$  bundle install
+
+
+(config/database.yml)
+# MySQL.  Versions 4.1 and 5.0 are recommended.
+#
+# Install the MySQL driver:
+#   gem install mysql2
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: excelsio_dev
+  pool: 5
+  username: excelsio_rails
+  password: kz570eif{
+  #socket: /tmp/mysql.sock
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: excelsio_test
+  pool: 5
+  username: excelsio_rails
+  password: kz570eif{
+  #socket: /tmp/mysql.sock
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: excelsio_production
+  pool: 5
+  username: excelsio_rails
+  password: kz570eif{
+  #socket: /tmp/mysql.sock
+
+
+
+
+### Create user and databases
+
+$  mysql -u root -p
+<enter password>
+mysql >  CREATE USER 'excelsio_rails'@'localhost' IDENTIFIED BY 'kz570eif{';
+
+
+mysql >  CREATE DATABASE excelsio_dev;
+mysql >  GRANT ALL ON excelsio_dev.* TO 'excelsio_rails'@'localhost' IDENTIFIED BY 'kz570eif{';
+
+mysql >  CREATE DATABASE excelsio_test;
+mysql >  GRANT ALL ON excelsio_test.* TO 'excelsio_rails'@'localhost' IDENTIFIED BY 'kz570eif{';
+
+mysql >  CREATE DATABASE excelsio_production;
+mysql >  GRANT ALL ON excelsio_production.* TO 'excelsio_rails'@'localhost' IDENTIFIED BY 'kz570eif{';
+
+
+
+
+
+### (the test index should work)
+
+
+
+
+### Git
+
+$  git init
+
+(.gitignore)
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+config/database.yml
+README
+
+
+$  git config user.email veryprofessionalguy@gmail.com
+$  git config user.name "name"
+
+$  ssh-keygen -t rsa
+
+
+$  git add .
+$  git commit -m "initial commit"
+$  git remote add origin git@github.com:thisismygit/xpd3.git
+$  git push -u origin master
+
+
+
+
+
+======= End of Initialization ===========================================================
+
+
+
+
+
+
+
+
+
+######### Begin Working on Pages ###########################################################
+
+$  git checkout -b static-pages
+
+
+
+### Do home page
+
+1)  Arrange the static page's html markup
+
+2)  Get the images in line
+
+3)  Convert it to use the application template
+
+$  rails g controller page home about gallery specials products news
+
+
+###  place the homepage in views/pages/home.html.erb
+
+i.  Convert to using CSS
+
+ii. Convert to using image tags?
+
+iii. Refactor things into partials
+
+
+
+
+$  git add .
+$  git commit -m "finished initial run on static pages"
+$  git checkout master
+$  git merge static-pages
+$  git push origin
+
+
+
+
+======= End of Working on Pages ===========================================================
+
+
+
+######## Modeling the users ##################################################################
+
+$  git checkout -b modeling-users
+
+We gotta be thinking about the customers who will be creating accounts and logging in first.  
+
+There will be three types of users:  Admins, Employees, and customers.  
+
+Admins and employees will share a model.  Customers will get their own however
+
+
+
+Desires (I think):
+
+(attempt 1)
+[code]
+Employee1.name            # for a legacy database
+Employee1.password        
+Employee1.employeeid      # legacy, will be the unique ID instead of email
+Employee1.dob             
+Employee1.position_title  
+
+Employee1.person.first_name
+Employee1.person.last_name
+Employee1.person.email
+
+Employee1.person.locations(1).state
+Employee1.person.locations(1).city
+Employee1.person.locations(1).zipcode
+Employee1.person.locations(1).address1
+Employee1.person.locations(1).address2
+
+
+
+
+Customer1.email                # as a login/ unique ID, maybe it will looke for this in .person.email
+Customer1.password   
+
+Customer1.person.first_name
+Customer1.person.last_name
+Customer1.person.email         # hmm
+
+Employee1.person.locations(1).state
+Employee1.person.locations(1).city
+Employee1.person.locations(1).zipcode
+Employee1.person.locations(1).address1
+Employee1.person.locations(1).address2
+[/code]
+
+
+(attempt 2)
+[code]
+
+User1.email
+User1.password
+
+User1.Person(1).first_name    # employees can only have one 'person' to their account
+User1.Person(1).last_name
+User1.Person(1).email
+
+User1.Person(1).locations(1).state
+User1.Person(1).locations(1).city
+User1.Person(1).locations(1).zipcode
+User1.Person(1).locations(1).address1
+User1.Person(1).locations(1).address2
+
+# If Employee
+
+User1.Employee.dob
+User1.Employee.position_title
+User1.Employee.employeeid
+
+# else if customer
+
+User1.Employee = nil
+[/code]
+
+
+
+
+1)  generate the employee model
+
+$  rails g scaffold User email:string encrypted_password:string
+
+
+$  rails g model Person first_name:string last_name:string email:string user_id:integer
+
+$  rails g model Employee employeeid:integer name:string position_title:string origin_date:date dob:date user_id:integer
+
+$  rails g model Address state:string city:string zipcode:string address1:string address2:string user_id:integer
+  
+  
+  
+  
+
+2)  Setup the db:populate? 
+  
+  i.  Install gem 'rspec-rails', '2.6.1' (bundle under group :development)
+
+3)  Setup the model
+
+(vi app/models/user.rb)
+
+require 'digest'
+class User < ActiveRecord::Base
+  attr_accessor :password
+  attr_accessible :email, :password, :password_confirmation
+  
+  has_one :person
+  has_many :addresses
+  
+  has_one :employee
+  
+  
+  email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  
+  validates :name, :presence => true, :length   => { :maximum => 50 }
+  
+  validates :email, :presence => true, :format => { :with => email_regex },
+                    :uniqueness => { :case_sensitive => false }
+  
+  validates :password, :presence     => true,
+                     :confirmation => true,
+                     :length       => { :within => 6..40 }
+  
+  
+  before_save :encrypt_password
+  
+  def has_password?(submitted_password)
+    encrypted_password == encrypt(submitted_password)
+  end
+  
+  def self.authenticate(email, submitted_password)
+    user = find_by_email(email)
+    return nil  if user.nil?
+    return user if user.has_password?(submitted_password)
+  end
+
+  def self.authenticate_with_salt(id, cookie_salt)
+    user = find_by_id(id)
+    (user && user.salt == cookie_salt) ? user : nil
+  end
+  
+  private
+    
+    def encrypt_password
+      self.salt = make_salt if new_record?
+      self.encrypted_password = encrypt(password)
+    end
+
+    def encrypt(string)
+      secure_hash("#{salt}--#{string}")
+    end
+
+    def make_salt
+      secure_hash("#{Time.now.utc}--#{password}")
+    end
+
+    def secure_hash(string)
+      Digest::SHA2.hexdigest(string)
+    end
+end
+
+
+(app/models/person.rb)
+class Person < ActiveRecord::Base
+  belongs_to :user
+  
+  attr_accessible :first_name, :last_name,   
+end
+
+
+# debug until the below works in rails console
+
+u = User.create(:email => "l@g.com", :password => 'foobar')
+
+
+
+
+Time for the controller and views
+
+$  rails g migration add_foriegn_to_people user_id:integer
+
+$  rails g migration add_foriegn_to_employees user_id:integer
+
+$  rails g migration add_foriegn_to_addresses user_id:integer
+
+
+
+$ rails generate model Relationship follower_id:integer followed_id:integer
+
+
+
+
+Time for model tests!  J/K!
+
+
+Time to get a profile form...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class employee < ActiveRecord::Base 
+  attr_accessor :password
+  attr_accessible :login_name, :first_name, :last_name, :email
+  
+  has_many :addresses
+  
+  has_one :person
+  
+  
+  
+  
+  validates :name, :presence => true, :length   => { :maximum => 50 }
+  
+  validates :email, :presence => true, :format => { :with => email_regex },
+                    :uniqueness => { :case_sensitive => false }
+  
+  validates :password, :presence     => true,
+                     :confirmation => true,
+                     :length       => { :within => 6..40 }
+  
+  
+  
+  
+  before_save :encrypt_password
+  
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$  rails g model Customer name:string email:string \
+  
+  
+   
+
+
+
+
+
+======= End of modeling the users ===========================================================
+
+
+
+
+
+
+######### Begin work on authentication #######################################################
+
+$  git checkout -b authentication
+
+
+
+
+
+
+
+
+
+$  git add .
+$  git commit -m "finished initial run on authentication"
+$  git checkout master
+$  git merge authentication
+$  git push origin
+
+
+
+======= End of work on authentication ===========================================================
+
+
+######### Begin news-blasts / blog ###########################################################
+
+
+$  git checkout -b news-blasts
+
+
+
+$  rails g scaffold news_blast headline:string content:string date:date
+
+
+
+
+
+$  git add .
+$  git commit -m "finished initial run on news blasts"
+$  git checkout master
+$  git merge news-blasts
+$  git push origin
+
+
+======= End of news-blasts ===========================================================
+
+
+
+######### Begin Working on databases ##########################################################
+
+$  git checkout -b databases
+
+
+
+1)  Setup caffolding for the products database
+
+
+$  rails g scaffold Products pc:integer sku:integer subcat:integer description:string unitofmeasure:string \
+ vendor:integer vendorsku:string manufacturer:integer manufacturersku:string upc:string \
+ averagecost:decimal currentcost:decimal \
+ pricelevel1:decimal pricelevel2:decimal pricelevel3:decimal pricelevel4:decimal pricelevel5:decimal \
+ pricelevel6:decimal pricelevel7:decimal pricelevel8:decimal pricelevel9:decimal pricelevel10:decimal \
+ leadin:integer minorderqty:integer minstocklvl:integer maxstocklvl:integer onhand:integer
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

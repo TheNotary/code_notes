@@ -1,0 +1,155 @@
+::Events, (Delegates) And User Controls.txt::
+
+Do you know why delegates are so necessary?  Well, they're practical for when you need to hard code a function to be called, but don't know which function will be called exactly...  
+If you answered my first question no, then you're probably wondering, "Well, when the hell do you need to call a function and not know which function you're calling?"  
+And you have a good point if you intonated yourself to indicate a baffled annoyance.  The reason delegates, so readily, baffle and annoy us when we first learn about them is because we've never 'imagined' code that relied on them --because we've always coded different ways around them.  But doing so is often more work than simply implementing the good old trusty delegate.  
+
+The below example lightly shows you delegate usage along side the usage of events, but this is just one of the code patterns that depends on delegates, there are more cases.  The emphasis of this file is certainly on events.  Now let's go over an example of where we will need events (and a delegate):
+
+SITUATION:
+Let's say we make a control and it generates a number for us and puts it in a fancy text box so we can even see the number.  
+We then take this control and plop it into our C# project and we see that on_load, it generates a random number.  But we program the number to change every minute!  SWEET!
+
+Now, what if we wanted to put a second of these random number controls onto the form, and then place a normal textbox on the form which would be equal to the sum of each random number?  THAT WOULD BE EPIC!
+
+ie
+
+This One Is NOT Real Code!
+[code]
+
+  RandCon randomControl1 = new RandCon();   // as if we named our control RandCon...
+  RandCon randomControl2 = new RandCon();   // We don't though, this is just to show you the jist
+
+  TextBox sumBoth = new TextBox();
+  
+[/code]
+
+Yeah... what now indeed?...  How would we know WHEN to sum both the controls and store it in our text box?  We could code our program to do it continuously but that's CPU wasteful, thread wasteful, lamo, and a bad answer.
+
+The good answer?  We can do it with events!  If you program your controls to fire off a special event everytime they generate their numbers, you will find your job quite easy.  
+So let's go over how events work...
+
+
+The SETUP FOR AN EVENT goes like this:
+
+In the User control:
+1)  Make an event object that can be accessed publicly.  (we'll tie our summation function to this event object)
+
+2)  Make a delegate that will be "of the shape" of our target function (in our case, just a void function that takes no parameters)
+
+3)  Make the user control call the event when the textBox1_TextChanged occurs...
+
+In the Target app (MAIN WINDOW):
+
+1)  Make our summation function.  
+
+2)  Add a function to the user control's event object (our 'subscribing' function will be our summation function)
+
+
+
+
+Ok, lot's of steps, but all in all, this is easy.  Let's take a look at the code.  
+
+STEPS TO MAKE USER CONTROL (for a new wpf application project that's already started):
+1)  In solution explorer, right click your project and choose add new user control.  
+2)  (+textBox) 
+      Drag a textBox onto the control.
+3)  (+TextBox1_TextChanged)  
+      Right click that text box, and in the properties page, click the "Events Tab", and scroll down to where it says "OnTextChanged", double click.
+4)  (Copy and pasting all of my code should work for you, overwrite everything in the public partial class UserControl1 : UserControl)
+
+User Control Code:
+[code]
+    // this is a WPF user control's code
+    public partial class UserControl1 : UserControl
+    {
+        public delegate void MyDelegate();   // delegate declaration, this specifies a function which shall return void and take zero parameters
+        public event MyDelegate MyEvent;
+
+
+        public UserControl1()
+        {
+            InitializeComponent();
+        }
+
+        private void textBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (MyEvent != null) // if you try to run an event that has no functions assigned, you get error... so you need check here =(
+              MyEvent();
+        }
+
+        // Does not contain random number generator yet!
+        // Build it your self, or manually add random numbers =)
+    }
+
+[/code]
+
+Wow, that control was simple!  Now add it to your main window (rebuild your project and your new control will appear in your toolbox to be clicked and dragged to your main window).
+
+Click and drag two of those bad boys on there!
+
+Then Click and drag a boring old text box onto your main window.  
+
+Then setup the code below for your main window:
+[code]
+
+    public partial class MainWindow : Window
+    {
+        public MainWindow()  // this is a WPF application's code
+        {
+            InitializeComponent();
+        }
+
+        private void summationFunc()
+        {
+            double num1 = 0;
+            double num2 = 0;
+            
+            
+            if (userControl11.textBox1.Text != "")
+                num1 = Convert.ToDouble(userControl11.textBox1.Text);
+            if (userControl12.textBox1.Text != "")
+                num2 = Convert.ToDouble(userControl12.textBox1.Text);
+
+
+            this.textBox1.Text = (num1 + num2).ToString();
+        }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            userControl11.MyEvent += new UserControl1.MyDelegate(summationFunc);  // this points the originally defined delegate to the summationFunction
+                                                                                  // And subscribes that function to fire when the event is raised!
+            userControl12.MyEvent += new UserControl1.MyDelegate(summationFunc);  // ditto for control2
+        }
+    }
+
+[/code]
+
+
+Woah!  That code is simple too!  All it does, is:
+1)  contain an uber, special, super-duper summationFunc() 
+  and
+2)  Attach the summationFunc() to the event thing (so it will be subscribed to the event)
+
+
+
+Good job!  Did it work?  Try plugging some numbers into the controls: they should sum in textBox1.  It's working, right?  Well good job even if it's not, I'm sure you'll get there.  
+Now let's summarize the operation.
+
+The User Control shall contain
+1)  A...  public delegate void MyDelegate();  ...type thing
+2)  A...  public event MyDelegate MyEvent;  ...type thing to be called by the control.
+3)  A call to...  MyEvent();  ...which will ensure that subscribing elements "get the memo" that something within the control just happened.
+
+The host to the control (main window) shall contain:
+1)  A fun function to be called when the user control raises the event.
+2)  A subscription to the user control's event...  userControl11.MyEvent += new UserControl1.MyDelegate(summationFunc);  
+
+Oh, and also I should summarize that delegates are "theoretical functions" that you can hard code at compile time and real functions can be swapped in at a later time, and they can even be changed and varied throughout the life cycle of your code (or throughout runtime!).  We needed one here, but delegates deserive an entire text file all to themselves.  (I'm thinking of an algorhthm for a space man who can go to venus, mercury, or the moon, and depending on his destination, he will need to wear different boot straps (eg. moonBootStraps() ) and special socks (eg. moonSocks()).   Some day...
+
+
+Have fun making complicated code, I think you're ready for it!
+
+
+Extrapolated from:  http://msdn.microsoft.com/en-us/library/8627sbea%28v=vs.71%29.aspx

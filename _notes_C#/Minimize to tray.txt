@@ -1,0 +1,30 @@
+http://www.developer.com/article.php/3336751
+
+
+look in toolbox for NotifyIcon and drag it to the form...
+Put these events in the form:
+
+private void Form1_Resize(object sender, System.EventArgs e)
+{
+   if (FormWindowState.Minimized == WindowState)
+      Hide();
+}
+
+
+
+private void notifyIcon1_DoubleClick(object sender,
+                                     System.EventArgs e)
+{
+    Show();
+    WindowState = FormWindowState.Normal;
+}
+
+
+
+Then add the event handlers and point to those events...
+
+
+
+
+
+

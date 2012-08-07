@@ -1,0 +1,82 @@
+
+So you probably understand that when using PHP, none of your variables are persistant; they are erased the second the user browses to another page.  
+The workarounds to this problem are
+1)  cookies
+2)  sessions
+
+Cookies can last years.  Sessions can last for as long as your user's browser remains open.  
+
+Let's talke about sessions
+
+Steps:
+1)  First, in your code, call Start_Session() to let the server know to look for a session file:
+  -PHP will know if there is an active session on file for the user by reading a cookie on the client's machine
+  -If there is no cookie, then the server starts a new session and places the cookie it saught on the client's machine (the cookie contains simply a session ID)
+2) Read and write variables to the $_SESSION array!
+
+
+
+[code]
+
+<html>
+
+<head>
+  
+  <script type="text/javascript">
+    function checkSession(str)
+    {
+      location.href = "sessions.php?input=" + str;
+    }
+  </script>
+</head>
+
+<body>
+
+<form>
+  Type 1 thing, then click button, then type a new thing and click button.  
+  <input type="textbox" name="myText"/>
+  <input type="button" onclick="javascript:checkSession(this.form.myText.value)"/>
+</form>
+
+<br>
+
+<?php
+  $input = $_GET['input'];
+  
+  if ($input == "endsession")
+  {
+    $_SESSION = array();
+    $_SESSION_destroy();
+    echo "session destroyed";
+    return;
+  }
+  
+  session_start( );
+  $_SESSION['old'] = $_SESSION['new'];
+  $_SESSION['new'] = $input;
+  
+  echo "old (proves session works):  $_SESSION['old'] <br> new:  $_SESSION['new']";
+  
+  
+?>
+
+[/code]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

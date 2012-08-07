@@ -1,0 +1,277 @@
+//  http://msdn.microsoft.com/en-us/library/system.data.dataset.aspx
+// http://msdn.microsoft.com/en-us/library/55hehd8c(v=VS.100).aspx
+
+
+//   The way working with DataSets goes is like...  You use methods, and do stuff to tables and rows that are inside DataSets
+//   and you eventually Save the changes that you made to update the DataSet that was manipulated.  
+
+Procedure
+   1.  Create a DataSet
+   2.  Create a table
+   3.  Create a column
+   4.  Add the column to the table
+   5.  Add the table to the DataSet
+   
+   6.  Create a row (using the schema of the table)
+   7.  Add the row to the table
+   8.  Accept the changes (to update the DataSet)
+
+
+
+
+
+    DataSet                                // A thing that holds a cache of data
+           .Tables[TableName]              // Represents a Table with in a DataSet
+                  .Columns[ColumnName]     // Represents a column within a Table
+           
+           .Relations                      // Represents the links between different columns/ tables
+                     .Add(DataRelation)    // Lets you add a new relation to the dataset
+                     
+           .AcceptChanges()                // 
+           
+           .WriteXml(streamWrite)          // This turns the DataSet into an XML file and writes it to disk
+           
+                                           //
+           
+    
+    
+    DataTable             // A table of data... contains rows and columns
+    
+    DataTable table = new DataTable("table Name");
+    
+    
+    
+    
+    DataColumn            // A column of a table of a DataSet...   DataSet.Table1.Column
+    
+    DataColumn col = new DataColumn("Title", Type.GetType("System.Int32"));   //  Here we declare a column with a title, and a constrained datatype (it can onlyhave int32 values)      
+               
+               
+               
+    
+    DataRelation                     // A link between two columns of seperate tables...
+                
+    
+    
+    
+    
+    
+    DataRowCollection                   // this is a collection of rows found in a DataTable
+                     .find("John")      // this will return a DataRow or something...  it needs to have primary keys though...
+
+
+
+
+
+
+
+//    /////////////          BASIC   WALKTHROUGH 
+//
+//
+//  http://msdn.microsoft.com/en-us/library/55hehd8c(v=VS.100).aspx
+
+
+
+          // quickly make a dataset, and add a variable to it in a row....
+
+
+            DataSet mydataset = new DataSet();
+            
+            mydataset.Tables.Add("Table");                       // install a new table
+            mydataset.Tables["Table"].Columns.Add("Value");      // install a new column (and name it)
+            
+            DataRow newrow = mydataset.Tables[0].NewRow();       // make row in the likeness of the table
+            newrow[0] = "put";                                   // put data in the row
+            mydataset.Tables[0].Rows.Add(newrow);                // install the row into the table
+
+
+
+
+
+
+
+
+
+
+
+
+
+//      
+    DataSet originalDataSet = new DataSet("dataSet");              // Create a new DataSet
+    DataTable table = new DataTable("table");                      // Create a new DataTable
+    
+    DataColumn itemColumn = new DataColumn("ITEM");                // Create a new DataColumn
+    table.Columns.Add(itemColumn);                                 // Add the column to the DataTable
+    
+    originalDataSet.Tables.Add(table);                             // Add the DataColumn to the DataSet
+    
+    
+    
+    DataRow newRow;
+        
+    for(int i = 0; i < 10; i++)
+    {
+        newRow = table.NewRow();                    // Create a DataRow using "table"s schema (the row has an column named "item")
+        newRow["ITEM"]= "item " + i;                // The new row now has the text "item i" in the column named "item"
+        table.Rows.Add(newRow);                     // Adds the row to the table
+    }
+
+Below is what the dataTable will look like...  what the DataSet will look like even...
+
+ ITEM
+item 0
+item 1
+item 2
+item 3
+item 4
+...
+item 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  //////////////////    Get all data out of DataSets  (in a table view)  and print them
+//
+
+    foreach(DataTable table in dataSet.Tables)                       // For all Tables
+    {
+        Console.WriteLine("TableName: " + table.TableName);
+        foreach(DataRow row in table.Rows)                           // For all Rows
+        {
+            foreach(DataColumn column in table.Columns)              // For all Columns
+            {
+                Console.Write("\table " + row[column] );
+            }
+            Console.WriteLine();
+        }
+    }
+
+
+
+
+dataSet.Tables["tableName"]
+
+
+
+//    //////////////////////  GET ALL DATA OUT OF a DATASET'S ROW  and put them datas into an array...??
+
+
+            //   by row index
+
+            object [] rowArray = new object[2];
+
+            rowArray = dataSet.Tables["table"].Rows[0].ItemArray;            // by table name & row index
+
+            Console.Write(rowArray[1]);          // 
+
+
+
+          ////   load... every row into an array...  UNFINISHED
+          
+          
+          int i = 0;
+          foreach( DataRow row in dataSet.Tables["table"] )
+          {
+          
+             rowArray[i]... =             // by row name
+          
+          }
+          
+          
+          
+          
+          ////    get a single string value from a dataset's row   ... put it into a string
+          
+          
+          
+          String value;
+          
+          value = dataSet.Tables["table"].Rows[0].ItemArray.GetValue(1).ToString();
+          
+          
+          
+          
+          
+          
+          
+          /////  by column name
+          
+          String value;
+          
+          value = dataSet.Tables["table"].Rows["column name"].ItemArray.GetValue(1).ToString();
+
+
+
+
+
+
+
+
+
+
+
+
+//   .WriteXml()    Format explained
+
+
+
+<dataSet>                         // Name of the dataSet
+  <table>                         // Name of the table which a row belongs to
+    <id>0</id>                    // Name of the column of a row
+    <item>item 0</item>
+  </table>
+  
+  
+  <table>                         // Here's what the data for a single row looks like.  
+    <id>   1      </id>
+    <item> item 1 </item>
+  </table>
+  
+  
+  <row.NameOfParentTable>
+    <Row.ColumnName>   Row.ColumnName.value   </Row.ColumnName>
+    <Row.ColumnName>   Row.ColumnName.value   </Row.ColumnName>
+  </table>
+  
+  
+  
+  <table>
+    <id>3</id>
+    <item>item 3</item>
+  </table>
+  <table>
+    <id>4</id>
+    <item>item 4</item>
+  </table>
+  <table>
+    <id>5</id>
+    <item>item 5</item>
+  </table>
+  <table>
+    <id>6</id>
+    <item>item 6</item>
+  </table>
+  <table>
+    <id>7</id>
+    <item>item 7</item>
+  </table>
+  <table>
+    <id>8</id>
+    <item>item 8</item>
+  </table>
+  <table>
+    <id>9</id>
+    <item>item 9</item>
+  </table>
+</dataSet>
+
+

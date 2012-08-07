@@ -1,0 +1,83 @@
+
+This folder is for listing 
+                        "Things That Might Come in Handy For Web Development"
+
+
+That means, if I wind up at a website that has a cool tool that allows web developers to do syntax highlighting to their code files, that link goes in the list.  
+
+Does that also include random buttons and design features that I'd like?  I think I should have a folder for that.  
+
+
+
+::
+Turn any textarea into a markup editor like on wikipedia, or dream in code:
+http://markitup.jaysalvat.com/home/
+
+
+
+
+::Rails Specific
+
+Easily code a menu into your rails app that acts as a tree!!!!  COMES WITH TUTORIAL!
+http://railsforum.com/viewtopic.php?id=1560
+
+
+
+Google Calendar integration!
+https://github.com/northworld/google_calendar
+
+
+Converts BBcode into html
+http://agilewebdevelopment.com/plugins/bbcodeizer
+
+
+
+Rails calender plugin
+http://agilewebdevelopment.com/plugins/calendar_helper
+
+
+
+gridview control!
+http://www.farinspace.com/jquery-scrollable-table-plugin/
+
+
+carousel control!
+http://sorgalla.com/projects/jcarousel/
+
+
+draggable window control!
+http://woork.blogspot.com/2009/02/ultra-small-code-to-drag-everything-in.html
+
+Custom Cursor
+http://www.webtoolkit.info/javascript-custom-cursor.html
+
+
+CSS bundler?
+http://agilewebdevelopment.com/plugins/bundle_fu
+
+
+CSS view?
+http://agilewebdevelopment.com/plugins/rails_css_views
+
+
+
+chat plugin
+http://agilewebdevelopment.com/plugins/search?q=chat
+
+
+
+
+
+
+Connect rails to iPhone
+http://www.vimeo.com/3077209
+
+
+
+
+
+
+
+
+
+

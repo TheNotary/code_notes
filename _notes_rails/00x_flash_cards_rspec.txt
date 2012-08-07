@@ -1,0 +1,66 @@
+
+
+
+:response.should render_template('new')
+Tests that the above actions result in the 'new' action being rendered for the controller specified in file name.  
+
+
+
+
+
+:spec/spec_helper.rb (examples)
+.
+.
+.
+RSpec.configure do |config|
+  .
+  .
+  .
+  def test_sign_in(user)
+    controller.sign_in(user)
+  end
+OR
+  def integration_sign_in(user)
+    visit signin_path
+    fill_in :email,    :with => user.email
+    fill_in :password, :with => user.password
+    click_button
+  end
+
+:spec/spec_helper.rb (what?)
+This file is where you put functions used throughout your _spec.rb files.  DRY coding instrument.  
+
+
+
+
+
+
+
+:test for a list element!
+response.should have_selector("li", :content => "content")
+
+
+
+
+
+:test for a model that has an attribute (@admin)
+@user.should respond_to(:admin)
+
+
+
+
+
+
+
+
+
+:Specify code to be run before several tests
+before(:each) do
+
+
+
+
+
+
+
+

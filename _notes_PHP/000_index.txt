@@ -1,0 +1,50 @@
+
+0xx:  general PHP discussion, setup configurations, and other misc. information.  
+
+
+BASIC TOPICS
+
+
+100:    Things involving variables and data formats
+
+
+200:    Things involving Classes and structures
+
+
+300:    Things involving Program flow changes
+
+
+350:    Presentation Patterns
+
+
+
+ADVANCED TOPICS
+
+
+400:    Things involving your code's interaction with external PHP files, web files.
+
+
+
+450:    Things involving databases.  
+
+
+
+500:    AJAX and live updating coding patterns
+
+
+
+550:    Things involving clients connecting to your PHP apps.  
+
+
+
+600:    Dry coding practices (consists links to other text files probably)
+
+
+
+700:     Do mega-super-advanced shit (cgi)
+
+
+
+800:     Graphics and UI related
+
+
