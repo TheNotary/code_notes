@@ -1,0 +1,37 @@
+# A mixin let's you define some code once in a module, and then easily include
+# that code in another class
+
+
+
+# here is the module we'll be mixin into our other class
+module Calculations
+  def adder(a, b)
+    a.value + b.value
+  end
+end
+
+
+
+class Number
+  include Calculations
+  attr_reader :value
+  
+  def add(other)
+    adder(self.value, other.value)
+  end
+  
+  def initialize(value)
+    @value = value
+  end
+end
+
+n1 = Number.new(1)
+n14 = Number.new(14)
+
+#puts n1.add(n14)
+puts n1.adder(n1, n14)
+
+
+
+
+
