@@ -12,7 +12,10 @@ module Calculations
   
   # this makes the "adder" method both a static method AND 
   # an instance method.
-  module_function :adder  
+  module_function :adder
+  
+  # this is an alternative way to do module_function :blah, but works for EVERY method in the module/class
+  #extend self
 end
 
 

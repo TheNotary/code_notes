@@ -1,0 +1,33 @@
+# You can write a bunch of related methods, strap them into a module, and then
+# have those methods be implimented on classes that you write in the future
+# using the 'extend' keyword or the 'include' keyword
+
+
+module MyCoolTextFunctions
+  def output_text
+    puts "Here's some cool text to output."
+  end
+end
+
+
+
+class User
+  # to get instance methods
+  include MyCoolTextFunctions
+  
+  # to get class methods
+  extend MyCoolTextFunctions
+  
+  attr_accessor :name
+  
+  def initialize(name)
+    @name = name
+  end
+  
+  
+end
+
+u = User.new("Fred")
+
+u.output_text
+User.output_text
