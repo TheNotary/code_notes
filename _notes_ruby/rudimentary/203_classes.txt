@@ -1,0 +1,73 @@
+Here's a simple class:
+
+[code]
+class Person
+  def fname
+    @fname
+  end
+  def fname=(fname)
+    @fname = fname
+  end
+  def lname
+    @lname
+  end
+  def lname=(lname)
+    @lname = lname
+  end
+end
+[/code]
+
+
+It can be accessed like:
+
+[code]
+my_person = Person.new
+my_person.fname = john
+my_person.lname = smith
+[/code]
+
+
+
+We could use this syntax since we aren't really doing anything with those getters and setters:
+[code]
+class Person
+  attr_accessor :fname, :lname  # this will build getters and setters for us
+end
+[/code]
+
+
+
+
+
+
+
+Static methods...
+
+[code]
+class Person
+  def self.jog
+    puts "I'm running"
+    return "I'm running"
+  end
+end
+[/code]
+
+Usage:
+[code]
+Person.jog
+I'm running
+=> I'm running
+[/code]
+
+
+
+
+
+
+
+
+
+
+
+
+
