@@ -5,19 +5,24 @@
 
 # here is the module we'll be mixin into our other class
 module Calculations
+  # this defines a method which we'll 'mixin' to another class
   def adder(a, b)
-    a.value + b.value
+    a + b
   end
+  
+  # this makes the "adder" method both a static method AND 
+  # an instance method.
+  module_function :adder  
 end
 
 
 
 class Number
-  include Calculations
+  include Calculations  # this mixes in the Calculations module to 'Number'
   attr_reader :value
   
   def add(other)
-    adder(self.value, other.value)
+    adder(self.value, other.value)   # here we're calling the mixin
   end
   
   def initialize(value)
@@ -28,8 +33,15 @@ end
 n1 = Number.new(1)
 n14 = Number.new(14)
 
-#puts n1.add(n14)
-puts n1.adder(n1, n14)
+puts n1.add(n14)
+#puts n1.adder(n1.value, n14.value)
+
+puts Calculations.adder(1,2)  # we can even call the method directly off the class
+
+
+
+
+
 
 
 
