@@ -1,0 +1,12 @@
+
+# The below link demonstrates Many to many relationships between models...
+# has_many through AND
+# has_and_belongs_to_many
+http://railscasts.com/episodes/47-two-many-to-many
+
+
+
+
+
+
+

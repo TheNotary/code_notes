@@ -1,0 +1,65 @@
+
+This is how you create an animal class:
+
+  function Animal(){
+    this.eyes = 2;
+    this.hasTail;
+  }
+
+  Animal.prototype.sleep = function(){
+    alert('zzz');
+  }
+
+
+Then you can create a dog class which inherits from Animal:
+
+  function Dog(){
+    Animal.call()
+  }
+
+  Dog.prototype = new Animal();
+
+
+At this point, any Dog objects you create will have a sleep method, and two eyes.  
+
+  function Animal(){
+    this.eyes = 2;
+    this.hasTail;
+  }
+
+  Animal.prototype.sleep = function(){
+    alert('zzz');
+  }
+
+  function Dog(){
+    Animal.call()
+    this.hasTail = true;
+  }
+  Dog.prototype = new Animal();
+  
+  d = new Dog();
+  
+  d.eyes;
+  //-> 2
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
