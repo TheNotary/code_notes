@@ -1,0 +1,12 @@
+
+Say you have 2 or more arrays, 'a', 'b' and 'c', containing
+['hero', 'sidekick', 'villian']
+['mario', 'luigi', 'bowser']
+['Sonic', 'tails', 'wtf guy']
+
+Make 3 arrays containing all heros, sidekciks and villians seperately.  
+
+
+====
+
+heros, sidekicks, villians = a.zip(b, c)

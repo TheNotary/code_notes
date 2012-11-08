@@ -1,0 +1,8 @@
+Join all the unique elements from two arrays 'a' and 'b'
+[1, 2, 3]
+[2, 3, 4]
+
+But don't be sloppy using .uniq
+====
+
+a | b

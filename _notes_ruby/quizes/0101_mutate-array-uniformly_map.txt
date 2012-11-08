@@ -1,0 +1,7 @@
+Given an array 'a' containing [ "a", "b", "c" ]
+Capitalize them all, and give them exclamations, [ "A!", "B!", "C!"]
+
+====
+
+a.collect {|x| x.capitalize + "!" }
+

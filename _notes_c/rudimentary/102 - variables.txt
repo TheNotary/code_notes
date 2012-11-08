@@ -1,0 +1,184 @@
+A compiler is here http://codepad.org
+
+In c, all variables must be at the very beginning of the function in which they're being used or else you get an error.  
+
+
+(variables.c)
+  #include <stdio.h>
+  #include <stdbool.h>
+  int main(int argc, char *argv[])
+  {
+    char* myString;              // a constant string
+    char myOtherString[3];
+    int myInt = 5;
+    char myChar = 'A';
+    bool myFalseness = false;
+    
+    myString = "Hello World of Strings!";
+    // myOtherString = "hi";    // this won't work, instead, you need to use strcpy...
+    strcpy(myOtherString, "hi");
+    
+    printf(myOtherString);
+	  
+    return 0;
+  }
+
+
+  
+::Booleans::
+  
+(booleans.c)
+  #include <stdio.h>
+  #include <stdbool.h>
+  int main(int argc, char *argv[])
+  {
+    bool myFalseness = false;
+    
+    if (myFalseness == false)
+    {
+      printf("omg, myFalseness was soooo false!");
+    }
+    else
+    {
+      printf("weird... myFalseness was set to true...");
+    }
+    
+	  
+    return 0;
+  }
+
+
+
+One important note I'd like to get out of the way is that in C, you don't have a boolean primitive type built in!  Isn't that weird!?!  So to get boolean functionality, you can include stdbool.h and things will work out.  
+
+Ok, so booleans are mostly used for if statements I guess... For storing data that is either false or ture.  Usually boolean variables are named something like 'isReady', which would be set to 'true' if what ever it's refering to is actually ready.  Some people use hungarian notation, so I guess they'd name that variable 'bIsReady' to indicate that it's a boolean type.  
+
+
+
+
+::Strings::
+
+(strings_basic.c)
+  #include <stdio.h>
+  int main(int argc, char *argv[])
+  {
+    char* myString;         // a constant string
+    char myOtherString[3];  // this string has room for 2 characters after you count the invisible null terminating string at the end of the code.  
+    char myThirdString[100];
+    char myFourthString[] = "I produce a string as long as is needed";
+    
+    myString = "Hello World of Strings!";
+    
+    printf(myString);
+    
+    
+    // myOtherString = "hi";   // this won't work, instead, you need to use strcpy...
+    strcpy(myOtherString, "hi");
+    printf(myOtherString);
+    
+    return 0;
+  }
+
+There's the basics.  You can create a string variable by doing 'char* nameOfVar' which you can then set to a string.  Alternatively, you can manually specify the buffer size and use a char array to hold your string.  
+
+One thing to mention is that C and C++ are so old school that its a big deal manipulating strings --ah, the old days...  So to set a variable to a string, you need to pull out a function and pass in two strings to it, a destination and a source.  That function is 'strcpy' which will take the string in the src, and write it to the dest.  
+
+
+::Other string functions
+
+Just like strcpy, you need to use special functions to work with strings, which are really just character arrays.  
+
+strlen - Returns an int of the length of the string
+
+strcmp - Compares two strings, returning true if the strings have the same exact letters.  
+  Returns 1 or... 0 if not the same.  
+
+strcat - Concatinates two strings together.  
+
+
+
+
+::Printf, what is it?  Are there more formats?
+
+In C, printf stands for print formatted.  They call it that because you can format a string to accept a bunch of data types and have them converted to a string on the file before being printed to the screen...  Here's an example.  
+
+(strings_formatted1.c)
+  #include <stdio.h>
+  int main(int argc, char *argv[])
+  {
+    printf("I can print out the integer one: %i", 1);
+    
+    return 0;
+  }
+
+You can also format a string and save it in a variable instead of just printing it immediately onto the screen.  
+
+(strings_formatted2.c)
+  #include <stdio.h>
+  int main(int argc, char *argv[])
+  {
+    char myString[100];
+    
+    sprintf(myString, "I can print out the integer one: %i", 1);
+    
+    printf(myString);
+    return 0;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+Before I close on the subject of strings, I'd like to point out that strings are dangerous.  Anytime we specify a buffer size, we need to make sure we never write more data to that buffer than it can fit.  That's what a buffer overflow is.  Usually buffer overflows just crash your system, but they can also be used to compermize the security of the system running the application with the buffer overflow vulnerability.  Strings are a bit dangerious in this respect.  
+
+
+(strings_buffer-overflow.c)
+  #include <stdio.h>
+  int main(int argc, char *argv[])
+  {
+    char myString[10];
+    fgets(myString, 100, stdin);
+
+    printf(myString);
+    return 0;
+  }
+
+
+Here's how to debug a program...
+  $  strings a.out
+
+  $  gdb
+
+  (gdb)  file a.out
+  
+  (gdb)  break printf
+
+  (gdb)  run
+  
+  (gdb)  x/i $pc       #  Show current assembly instruction
+  
+  (gdb)  x/20i $pc     #  Show the next 20 assembly instructions
+  
+  
+  (gdb)  next          #  step to the next line.  
+  
+  [Inferior 1 (process 5011) exited normally]
+  <ALL DONE!>
+
+
+
+
+
+
+
+
+
+
+

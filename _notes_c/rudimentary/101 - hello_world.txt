@@ -1,0 +1,57 @@
+You can test all your code here http://codepad.org or to get binaries, go here http://www.onlinecompiler.net
+that way you don't need to waste time fiddling with compilers for every single
+language you decide to study.  
+
+
+
+Create a hello world with out annotations...
+
+(hello.c)
+  #include <stdio.h>
+  int main(int argc, char *argv[])
+  {
+	  printf("Hello World!");
+	  getchar();
+	  return 0;
+  }
+
+You can use the online compiler, or you can compile it on linux with the command line:
+
+  $  g++ hello.c -o hello
+
+
+Then create a hello world with annotations...
+
+
+  // Include a 'header file' which allows you to use built in functions such as 'printf' and 'getchar'.  
+  #include <stdio.h>
+
+  // Create a function called 'main' which returns an int.  
+  // Your code will always start here.  and it will always recieve 2 variables automatically, 
+  //   First is the count of arguments, 'argc', and
+  //   Second is the array of strings containing said arguments...  
+  //     For example, when you run your program from the command line like
+  //        "c:/dev/c/hello/hello.exe first_argument"
+  //     Argc will be set to 2, and 
+  //     argv[0] will contain the string "c:/dev/c/hello/hello.exe", and
+  //     argv[1] will contain the string "first_argument"
+  //
+  int main(int argc, char *argv[])
+  {
+
+    // this is a call to a function contained in 'stdio.h' which prints a string to the screen.  
+	  printf("Hello World!");
+	
+	  // this is a function that wait for you to press any key
+	  getchar();
+	
+	  // This statement returns from the program back to the commandline from which it was called.  
+	  return 0;
+  }
+
+
+
+
+
+
+
